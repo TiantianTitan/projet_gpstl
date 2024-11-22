@@ -159,6 +159,7 @@ require_once ('semestre.php');
 
             		<label>Parcours : <i><span style="color:#0000FF">Speciality</span></i></label>
                     <select class="selectop" id="spe" name="spe">
+                        <option value='ANDROIDE' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == '---'){} ?> >---</option>
                         <option value='ANDROIDE' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'ANDROIDE'){echo "selected='selected'";} ?> >ANDROIDE</option>
                         <option value='BIM' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'BIM') {echo "selected='selected'";} ?> >BIM</option>
                         <option value='CCA'<?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'CCA'){echo "selected='selected'";} ?> >CCA</option>

@@ -1,0 +1,288 @@
+2024-02-26 15:45:43,152 INFO Fichier chargé
+2024-02-26 15:45:49,968 INFO Fichier chargé
+2024-02-26 15:45:57,052 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-02-26 15:46:38,110 INFO Affichage disponible
+2024-02-26 16:02:19,088 INFO Fichier chargé
+2024-02-26 16:02:23,374 INFO Fichier chargé
+2024-02-26 16:02:27,605 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-07-23 08:45:20,755 INFO Fichier chargé
+2024-07-23 08:45:30,925 INFO Fichier chargé
+2024-07-23 08:46:32,175 INFO Fichier chargé
+2024-07-23 08:46:38,421 INFO Fichier chargé
+2024-07-23 08:46:43,557 ERROR Traceback (most recent call last):
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 538, in calculer
+    res, nb_etu_affectation_incomplete = resoudre(self.dictionnaire_ue, self.liste_etudiants)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 159, in resoudre
+    modele, dico_xy, dico_etu = construction_modele(dico_ue,liste_etudiants,contrainte_relachee)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 100, in construction_modele
+    initialisation_variables_modele(dico_ue,liste_etudiants)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 311, in initialisation_variables_modele
+    modele = initialisation_modele(nom_modele)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 1156, in initialisation_modele
+    modele_glpk = glpk.LPX()
+AttributeError: module 'glpk' has no attribute 'LPX'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 540, in calculer
+    res, nb_etu_affectation_incomplete = resoudre(self.dictionnaire_ue, self.liste_etudiants, contrainte_relachee=True)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 159, in resoudre
+    modele, dico_xy, dico_etu = construction_modele(dico_ue,liste_etudiants,contrainte_relachee)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 100, in construction_modele
+    initialisation_variables_modele(dico_ue,liste_etudiants)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 311, in initialisation_variables_modele
+    modele = initialisation_modele(nom_modele)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 1156, in initialisation_modele
+    modele_glpk = glpk.LPX()
+AttributeError: module 'glpk' has no attribute 'LPX'
+
+2024-07-23 08:48:27,004 INFO Fichier chargé
+2024-07-23 08:48:32,722 INFO Fichier chargé
+2024-07-23 08:48:38,657 ERROR Traceback (most recent call last):
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 538, in calculer
+    res, nb_etu_affectation_incomplete = resoudre(self.dictionnaire_ue, self.liste_etudiants)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 159, in resoudre
+    modele, dico_xy, dico_etu = construction_modele(dico_ue,liste_etudiants,contrainte_relachee)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 100, in construction_modele
+    initialisation_variables_modele(dico_ue,liste_etudiants)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 311, in initialisation_variables_modele
+    modele = initialisation_modele(nom_modele)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 1156, in initialisation_modele
+    modele_glpk = glpk.LPX()
+AttributeError: module 'glpk' has no attribute 'LPX'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 540, in calculer
+    res, nb_etu_affectation_incomplete = resoudre(self.dictionnaire_ue, self.liste_etudiants, contrainte_relachee=True)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 159, in resoudre
+    modele, dico_xy, dico_etu = construction_modele(dico_ue,liste_etudiants,contrainte_relachee)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 100, in construction_modele
+    initialisation_variables_modele(dico_ue,liste_etudiants)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 311, in initialisation_variables_modele
+    modele = initialisation_modele(nom_modele)
+  File "/Users/antoinegenitrini/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur_glpk.py", line 1156, in initialisation_modele
+    modele_glpk = glpk.LPX()
+AttributeError: module 'glpk' has no attribute 'LPX'
+
+2024-08-27 09:06:09,783 INFO Fichier chargé
+2024-08-27 09:06:17,459 INFO Fichier chargé
+2024-08-27 09:06:24,763 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-08-27 11:29:24,540 INFO Fichier chargé
+2024-08-27 11:29:30,331 INFO Fichier chargé
+2024-08-27 11:29:35,473 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-08-27 11:29:59,416 INFO Affichage disponible
+2024-08-27 11:30:52,689 INFO Fichier chargé
+2024-08-27 11:30:57,682 INFO Fichier chargé
+2024-08-27 11:31:02,607 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-08-27 11:31:10,434 ERROR Traceback (most recent call last):
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 555, in calculer
+    self.afficher_resultats2(self.donnees)
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 726, in afficher_resultats2
+    self.arbre_affectations.insert("", index=i, values=(ligne+1))  #### modif par tan
+                                                        ~~~~~^~
+TypeError: can only concatenate list (not "int") to list
+
+2024-08-27 11:31:44,537 INFO Fichier chargé
+2024-08-27 11:31:49,956 INFO Fichier chargé
+2024-08-27 11:31:54,602 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-08-27 11:31:57,161 ERROR Traceback (most recent call last):
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 555, in calculer
+    self.afficher_resultats2(self.donnees)
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 726, in afficher_resultats2
+    self.arbre_affectations.insert("", index=i, values=(ligne)+1)  #### modif par tan
+                                                       ~~~~~~~^^
+TypeError: can only concatenate list (not "int") to list
+
+2024-08-27 11:34:10,499 INFO Fichier chargé
+2024-08-27 11:34:17,588 INFO Fichier chargé
+2024-08-27 11:34:22,195 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-08-27 11:36:17,748 INFO Fichier chargé
+2024-08-27 11:36:24,341 INFO Fichier chargé
+2024-08-27 11:36:28,495 WARNING L'affectation ne s'est pas deroulée correctement: 29 etudiants ont une affectation incomplete.
+2024-08-27 11:38:25,104 INFO Fichier chargé
+2024-08-27 11:38:30,455 INFO Fichier chargé
+2024-08-27 11:38:36,311 WARNING L'affectation ne s'est pas deroulée correctement: 12 etudiants ont une affectation incomplete.
+2024-08-27 11:39:04,416 INFO Affichage disponible
+2024-08-29 15:36:08,911 INFO Fichier chargé
+2024-08-29 15:36:15,208 INFO Fichier chargé
+2024-08-29 15:36:21,973 ERROR Traceback (most recent call last):
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 507, in calculer
+    self.dictionnaire_ue,erreurs_ue = recuperer_ue(Parametres.chemin_edt)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/traitement.py", line 54, in recuperer_ue
+    lignes,fichier,erreur,liste_erreurs = verification_ue(chemin_fichier)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/verification.py", line 30, in verification_ue
+    message = __verification_ligne_ue__(ligne)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/verification.py", line 111, in __verification_ligne_ue__
+    if __caseVide__(intitule,ligne_ue) :
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/verification.py", line 202, in __caseVide__
+    if ligne[localisation] is None or ligne[localisation] == "":
+       ~~~~~^^^^^^^^^^^^^^
+KeyError: 'intitule'
+
+2024-08-29 15:37:09,989 INFO Fichier chargé
+2024-08-29 15:37:16,064 INFO Fichier chargé
+2024-08-29 15:40:57,032 INFO Fichier chargé
+2024-08-29 15:41:02,276 INFO Fichier chargé
+2024-08-29 15:47:47,482 INFO Fichier chargé
+2024-08-29 15:47:52,875 INFO Fichier chargé
+2024-08-29 15:48:42,759 INFO Fichier chargé
+2024-08-29 15:48:46,937 INFO Fichier chargé
+2024-08-29 15:48:50,428 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-08-29 15:48:59,340 INFO Affichage disponible
+2024-08-29 15:52:18,184 INFO Fichier chargé
+2024-08-29 15:52:23,018 INFO Fichier chargé
+2024-08-29 15:52:28,020 WARNING L'affectation ne s'est pas deroulée correctement: 42 etudiants ont une affectation incomplete.
+2024-08-29 15:55:33,299 INFO Fichier chargé
+2024-08-29 15:55:37,590 WARNING L'affectation ne s'est pas deroulée correctement: 31 etudiants ont une affectation incomplete.
+2024-08-29 15:56:49,619 INFO Fichier chargé
+2024-08-29 15:56:54,628 INFO Fichier chargé
+2024-08-29 15:56:59,113 WARNING L'affectation ne s'est pas deroulée correctement: 31 etudiants ont une affectation incomplete.
+2024-08-29 15:57:38,818 INFO Affichage disponible
+2024-09-04 11:47:23,776 INFO Fichier chargé
+2024-09-04 11:47:31,373 INFO Fichier chargé
+2024-09-04 11:48:17,971 INFO Fichier chargé
+2024-09-04 11:48:22,107 WARNING L'affectation ne s'est pas deroulée correctement: 6 etudiants ont une affectation incomplete.
+2024-09-04 11:49:06,369 INFO Affichage disponible
+2024-09-04 14:32:29,217 INFO Fichier chargé
+2024-09-04 14:32:34,824 INFO Fichier chargé
+2024-09-04 14:32:40,616 INFO Fichier chargé
+2024-09-04 14:38:50,134 INFO Fichier chargé
+2024-09-04 14:40:04,567 INFO Fichier chargé
+2024-09-04 14:40:09,040 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 14:41:07,884 INFO Fichier chargé
+2024-09-04 14:41:12,795 INFO Fichier chargé
+2024-09-04 14:41:16,178 WARNING L'affectation ne s'est pas deroulée correctement: 5 etudiants ont une affectation incomplete.
+2024-09-04 14:41:44,755 INFO Affichage disponible
+2024-09-04 14:44:55,795 INFO Fichier chargé
+2024-09-04 14:45:00,938 INFO Fichier chargé
+2024-09-04 14:45:04,005 WARNING L'affectation ne s'est pas deroulée correctement: 5 etudiants ont une affectation incomplete.
+2024-09-04 14:46:14,674 INFO Affichage disponible
+2024-09-04 14:53:39,809 INFO Fichier chargé
+2024-09-04 14:53:42,348 WARNING L'affectation ne s'est pas deroulée correctement: 5 etudiants ont une affectation incomplete.
+2024-09-04 14:53:53,952 INFO Affichage disponible
+2024-09-04 14:59:19,260 INFO Résultats enregistrés
+2024-09-04 15:14:58,812 INFO Fichier chargé
+2024-09-04 15:15:03,772 INFO Fichier chargé
+2024-09-04 15:15:08,460 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 15:15:14,982 INFO Affichage disponible
+2024-09-04 15:17:10,891 INFO Fichier chargé
+2024-09-04 15:17:15,753 WARNING L'affectation ne s'est pas deroulée correctement: 16 etudiants ont une affectation incomplete.
+2024-09-04 15:17:45,728 INFO Affichage disponible
+2024-09-04 15:18:15,343 INFO Fichier chargé
+2024-09-04 15:18:20,297 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 15:18:27,948 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 15:18:33,360 INFO Affichage disponible
+2024-09-04 15:18:49,351 INFO Résultats enregistrés
+2024-09-04 16:34:42,673 INFO Fichier chargé
+2024-09-04 16:34:47,837 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 16:36:34,665 INFO Fichier chargé
+2024-09-04 16:36:39,876 WARNING L'affectation ne s'est pas deroulée correctement: 17 etudiants ont une affectation incomplete.
+2024-09-04 16:38:21,379 INFO Fichier chargé
+2024-09-04 16:38:26,683 WARNING L'affectation ne s'est pas deroulée correctement: 23 etudiants ont une affectation incomplete.
+2024-09-04 16:39:27,352 INFO Fichier chargé
+2024-09-04 16:39:32,595 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 16:42:54,920 INFO Fichier chargé
+2024-09-04 16:43:00,770 INFO Fichier chargé
+2024-09-04 16:43:06,331 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 16:45:17,540 INFO Fichier chargé
+2024-09-04 16:45:22,604 INFO Fichier chargé
+2024-09-04 16:45:27,837 WARNING L'affectation ne s'est pas deroulée correctement: 17 etudiants ont une affectation incomplete.
+2024-09-04 16:45:43,886 INFO Affichage disponible
+2024-09-04 16:46:19,711 WARNING L'affectation ne s'est pas deroulée correctement: 17 etudiants ont une affectation incomplete.
+2024-09-04 16:47:54,416 INFO Fichier chargé
+2024-09-04 16:47:59,635 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 16:48:18,305 INFO Fichier chargé
+2024-09-04 16:48:23,466 WARNING L'affectation ne s'est pas deroulée correctement: 18 etudiants ont une affectation incomplete.
+2024-09-04 16:48:37,221 INFO Fichier chargé
+2024-09-04 16:48:41,782 WARNING L'affectation ne s'est pas deroulée correctement: 14 etudiants ont une affectation incomplete.
+2024-09-04 16:52:57,418 INFO Fichier chargé
+2024-09-04 16:53:02,224 INFO Fichier chargé
+2024-09-04 16:53:07,170 WARNING L'affectation ne s'est pas deroulée correctement: 17 etudiants ont une affectation incomplete.
+2024-09-04 16:55:13,622 INFO Fichier chargé
+2024-09-04 16:55:18,647 INFO Fichier chargé
+2024-09-04 16:55:23,487 WARNING L'affectation ne s'est pas deroulée correctement: 15 etudiants ont une affectation incomplete.
+2024-09-04 16:57:40,996 INFO Fichier chargé
+2024-09-04 16:57:46,380 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 16:59:07,130 INFO Résultats enregistrés
+2024-09-04 17:04:36,706 INFO Affichage disponible
+2024-09-04 17:12:37,373 INFO Fichier chargé
+2024-09-04 17:12:43,561 WARNING L'affectation ne s'est pas deroulée correctement: 20 etudiants ont une affectation incomplete.
+2024-09-04 17:13:15,926 INFO Affichage disponible
+2024-09-04 17:14:41,178 INFO Fichier chargé
+2024-09-04 17:14:46,040 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 17:20:18,008 WARNING L'affectation ne s'est pas deroulée correctement: 13 etudiants ont une affectation incomplete.
+2024-09-04 17:20:22,804 INFO Affichage disponible
+2024-09-04 17:27:51,093 INFO Attention: aucun fichier n'a été chargé
+2024-09-04 17:27:55,988 INFO Fichier chargé
+2024-09-04 17:28:00,917 INFO Fichier chargé
+2024-09-04 17:28:06,671 WARNING L'affectation ne s'est pas deroulée correctement: 22 etudiants ont une affectation incomplete.
+2024-09-04 17:28:49,680 INFO Affichage disponible
+2024-09-04 18:51:37,009 INFO Fichier chargé
+2024-09-04 18:51:44,893 INFO Fichier chargé
+2024-09-04 18:51:49,939 ERROR Traceback (most recent call last):
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 538, in calculer
+    res, nb_etu_affectation_incomplete = resoudre(self.dictionnaire_ue, self.liste_etudiants)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur.py", line 79, in resoudre
+    if var.X == 0:
+       ^^^^^
+  File "src/gurobipy/var.pxi", line 125, in gurobipy.Var.__getattr__
+  File "src/gurobipy/var.pxi", line 153, in gurobipy.Var.getAttr
+  File "src/gurobipy/attrutil.pxi", line 100, in gurobipy.__getattr
+AttributeError: Unable to retrieve attribute 'X'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/gui.py", line 540, in calculer
+    res, nb_etu_affectation_incomplete = resoudre(self.dictionnaire_ue, self.liste_etudiants, contrainte_relachee=True)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/tan/SU/Enseignement/STL/2024-2025/EDT/M1S1/Logiciel/gestion_contraintes/solveur.py", line 79, in resoudre
+    if var.X == 0:
+       ^^^^^
+  File "src/gurobipy/var.pxi", line 125, in gurobipy.Var.__getattr__
+  File "src/gurobipy/var.pxi", line 153, in gurobipy.Var.getAttr
+  File "src/gurobipy/attrutil.pxi", line 100, in gurobipy.__getattr
+AttributeError: Unable to retrieve attribute 'X'
+
+2024-09-04 18:51:56,303 INFO Fichier chargé
+2024-09-04 18:52:02,427 INFO Fichier chargé
+2024-09-04 18:52:04,831 WARNING L'affectation ne s'est pas deroulée correctement: 6 etudiants ont une affectation incomplete.
+2024-09-04 18:52:38,788 INFO Résultats enregistrés
+2024-09-04 18:52:43,363 INFO Affichage disponible
+2024-09-04 18:59:13,109 INFO Fichier chargé
+2024-09-04 18:59:16,103 WARNING L'affectation ne s'est pas deroulée correctement: 6 etudiants ont une affectation incomplete.
+2024-09-04 18:59:38,131 INFO Affichage disponible
+2024-09-04 19:00:57,245 INFO Résultats enregistrés
+2024-09-04 19:01:57,783 INFO Statistiques enregistrées
+2024-09-04 19:08:37,492 INFO Attention: aucun fichier n'a été chargé
+2024-09-04 19:08:44,315 INFO Fichier chargé
+2024-09-04 19:08:50,984 INFO Fichier chargé
+2024-09-04 19:08:53,896 WARNING L'affectation ne s'est pas deroulée correctement: 6 etudiants ont une affectation incomplete.
+2024-09-04 19:09:00,957 INFO Affichage disponible
+2024-09-04 20:23:10,101 INFO Résultats enregistrés
+2024-09-04 20:23:30,403 INFO Statistiques enregistrées
+2024-09-05 07:19:39,272 INFO Fichier chargé
+2024-09-05 07:19:45,848 INFO Fichier chargé
+2024-09-05 07:19:49,917 WARNING L'affectation ne s'est pas deroulée correctement: 15 etudiants ont une affectation incomplete.
+2024-09-05 07:21:33,938 INFO Affichage disponible
+2024-09-05 07:27:22,206 INFO Fichier chargé
+2024-09-05 07:27:25,605 WARNING L'affectation ne s'est pas deroulée correctement: 15 etudiants ont une affectation incomplete.
+2024-09-05 07:27:42,193 INFO Fichier chargé
+2024-09-05 07:27:45,129 WARNING L'affectation ne s'est pas deroulée correctement: 15 etudiants ont une affectation incomplete.
+2024-09-05 07:28:12,753 INFO Affichage disponible
+2024-09-05 07:29:31,052 INFO Résultats enregistrés
+2024-09-05 07:29:47,846 INFO Statistiques enregistrées
+2024-09-05 15:56:06,845 INFO Fichier chargé
+2024-09-05 15:56:12,404 INFO Fichier chargé
+2024-09-05 15:56:18,151 WARNING L'affectation ne s'est pas deroulée correctement: 15 etudiants ont une affectation incomplete.
+2024-09-05 15:58:17,503 INFO Affichage disponible
+2024-09-05 16:13:50,607 INFO Résultats enregistrés
+2024-09-05 16:14:04,070 INFO Statistiques enregistrées

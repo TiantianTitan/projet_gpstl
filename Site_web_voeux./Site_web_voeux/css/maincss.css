@@ -1,0 +1,45 @@
+a:visited{color:#386F48; text-decoration:none;}	/* visited link */
+a:link{color:#386F48;text-decoration:none;}		/* unvisited link */
+a:hover {color:#1FA055;text-decoration:none;}	/* mouse over link */
+a:active {color: #1FA055;text-decoration:none;}	/* selected link */
+
+.rlink:link { color: #0000EE; }
+.rlink:visited { color: #0000EE; }
+.rlink:hover {  color: #CF0A1D; }
+
+table, th, td {
+     border-style:none;
+     border:1px solid white;
+} 
+ 
+ .none {
+ border-style:none;
+ } 
+ 
+td{ color: #FEFEE2;}
+
+.error{
+    width: 100%;
+    background-color:orangered;
+    color:white;
+    text-align: center;
+    border-radius: 5px;
+    font-family:serif;
+    font-style:italic;
+    font-weight:bold;
+    font-size:medium;       
+}
+
+
+label
+{
+    align-self: center;
+    display: block;
+    width: 150px;
+    float: left;
+}
+
+
+body {
+    background-color:lightgrey;
+}

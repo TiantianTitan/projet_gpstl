@@ -1,0 +1,71 @@
+.box_ue_oblig>a:visited{color: red;}
+.box_ue_oblig>a:link{color: red;}
+.box_ue_oblig>a:hover{color: #FF5E4D;}
+.box_ue_oblig>a:active{color: #FF5E4D;}
+
+.box_ue_recom>a:visited{color: blue;}
+.box_ue_recom>a:link{color: blue;}
+.box_ue_recom>a:hover{color: #1E7FCB;}
+.box_ue_recom>a:active{color: #1E7FCB;}
+
+.edttab_1 th {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #3AF24B ;
+}
+
+.edttab_2 th {
+    background-color: #A91101;
+    color: white;
+    border-color: orangered ;
+}
+
+
+.edttab_1 #bedt{
+    width:100%;
+    color: #3AF24B;
+    background-color: white;
+    font-family:serif;
+    font-style:italic;
+    border-style:solid;
+    border-color:white;
+    font-weight:bold;
+    font-size:medium;
+    text-align:center;
+}
+
+.edttab_1 #bedt:hover{
+    color: white;
+    background-color: #3AF24B;
+    
+}
+ 
+
+
+.edttab_2 #bedt{
+    width:100%;
+    color: orangered;
+    background-color: white;
+    font-family:serif;
+    font-style:italic;
+    border-style:solid;
+    border-color:white;
+    font-weight:bold;
+    font-size:medium;
+    text-align:center;
+}
+
+.edttab_2 #bedt:hover{
+    color: white;
+    background-color: orangered;
+    
+}
+
+
+div[class="affiche_edt"]
+{   
+    float: none;
+    margin-left: 100px;
+    padding:10px;
+} 
+ 

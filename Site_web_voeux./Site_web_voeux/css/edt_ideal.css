@@ -1,0 +1,33 @@
+.edttab_1 th {
+    background-color: #798081;
+    color: white;
+    border-color: #C1BFB1 ;
+}
+
+.edttab_1 #bedt{
+    width:100%;
+    color: #CECECE;
+    background-color: white;
+    font-family:serif;
+    font-style:italic;
+    border-style:solid;
+    border-color:white;
+    font-weight:bold;
+    font-size:medium;
+    text-align:center;
+}
+
+.edttab_1 #bedt:hover{
+    color: white;
+    background-color: #CECECE;   
+}
+ 
+
+
+div[class="affiche_edt"]
+{   
+    float: none;
+    margin-left: 100px;
+    padding:10px;
+} 
+ 

@@ -1,0 +1,18 @@
+table, th, td {
+     border-style:none;
+     border:1px solid grey;
+}  
+
+
+.edttab_ th{
+    background-color: #CECECE;
+    color: white;
+    border-color: #BBD2E1 ;}
+ 
+ 
+ .descrecapth{
+      width: 250px;
+      border-color: white;
+ }
+ 
+  

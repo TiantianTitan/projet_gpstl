@@ -1,0 +1,301 @@
+## modification apportés pour la correction des bugs:
+
+# detection des erreurs dans un fichier :
+
+
+1) verification.py : creation d'un nouveau fichier pour les methodes permettant de detecter les erreurs, il y en a deux "publiques", une pour
+	les voeux et une pour l'EDT
+	
+	- les methodes verification_**(nom_fichier) reprennent le debut des methodes se trouvant dans traitement.py où 
+			lignes, fichier = dictionnaire_csv(chemin_fichier)  
+	   	a été deplacé dans les nouvelles methodes. Ces fonctions devront renvoyer le fichier car il doit être fermé
+	   	dans les methodes se trouvant dans traitement.py
+	   	
+	- les deux methodes renvoient les lignes du fichier sous forme de liste pour qu'on n'ait pas à trop modifier traitement.py
+	
+	- elles donnent aussi un boolean indiquant si le fichier a oui ou non des erreurs et une liste des erreurs (qui sera utiliser comme
+		un log pour l'affichage
+
+
+2) traitement.py : modification de la methode pour qu'il puisse prendre en compte les verifications faites sur le fichier. L'objectif a été 
+	d'eviter de trop modifier le fichier. On modifie les deux methodes de la même maniere. Les deux methodes renverront un argument en plus
+	correspondant au "log" des erreurs.
+	
+	- remplace la ligne :
+			lignes, fichier = dictionnaire_csv(chemin_fichier)
+		par la ligne:
+			lignes,fichier,erreur,liste_erreurs = verification_voeux(chemin_fichier)   [ou verification_ue]
+			
+	- l'argument lignes renvoyé par la fonction est ici necessairement une liste
+	
+	- erreur est un boolean, s'il est True, alors on n'a pas besoin de creer les UE/Etudiant
+	
+	- les methodes ne renvoit pas que la liste d'UE/Etudiant, mais également la liste des erreurs (si le boolean erreur est False
+		on doit s'assurer que la liste est vide)
+
+
+3) gui.py : modification de la methode calculer(self) et ajout de la methode afficher_liste_erreur_newWindows(self, messages,nom_fichier)
+
+	- pour calculer(self), on modifie le debut où on prend en compte que la methode recuperer_** renvoi un argument en plus et que
+		si cet argument est vide alors il n'y a pas d'erreur. S'il y a une erreur, alors on appelle la nouvelle methode
+		qui ouvre une nouvelle fenetre affichant ce qu'il y a dans l'argument et qui arrete la fonction.
+		
+	 	original:
+	 	self.dictionnaire_ue = recuperer_ue (Parametres.chemin_edt)
+	 	self.liste_etudiants = recuperer_etudiants(Parametres.chemin_voeux)
+	 	
+	 	modifié:
+		self.dictionnaire_ue,erreurs_ue = recuperer_ue (Parametres.chemin_edt)
+            		if len(erreurs_ue) > 0 :
+            			self.afficher_liste_erreur_newWindows(erreurs_ue,Parametres.chemin_edt)
+            		return
+            	
+            	self.liste_etudiants,erreurs_voeux = recuperer_etudiants(Parametres.chemin_voeux)
+            		if len(erreurs_voeux) > 0 : 
+            			self.afficher_liste_erreur_newWindows(erreurs_voeux,Parametres.chemin_voeux)
+            		return
+            		
+	- pour afficher_liste_erreur_newWindows(self,messages,nom_fichier) est une methode qui ouvre une nouvelle fenetre affichant 
+		ce qu'il y a dans messages, une liste de tuples (ligne où il y a l'erreur, description de l'erreur) ainsi que le nom
+		du fichier où il y a l'erreur
+		La fenetre peut se fermer avec le bouton en bas
+			
+4) parametres.py : ajout de parametres pour les affichages
+
+
+
+
+# ajout d'un moyen manuel + automatique d'effacer les grilles : ajout d'un bouton pour effacer les tableaux parmi le déroulé des onglets
+ou bien lorsqu'on fait un nouveau calcul, d'effacer les grilles deja présentes
+
+1) les parametres dans gui.py
+	self.affectation_realisee
+		devient true après appel de la fonction self.afficher_resultats2 dans resultat
+		self.afficher_resultats2 affiche les données dans un onglets dédié, il s'agit de l'onglet self.onglet_affectations
+	self.remplissage_realise
+		devient true a la fin de la fonction afficher_remplissage_groupes(self)
+
+	l'objectif devient donc à utiliser ces deux marqueurs pour savoir s'il est possible d'effacer l'affichage
+
+2) rafraichir(self,changementMode=False) : 
+	ajout des lignes 
+	    else:
+                self.griser_exporter_resultats()
+            ...
+	    else :
+                self.griser_exporter_statistiques()
+        il faut pouvoir regriser les options pour les export des fichier
+        
+3) creation de methodes pour effacer les données des onglets
+	- efface_remplissage_affectations et efface_remplissage_groupes pour les deux onglets separements
+	- effacer_affichage pour les deux onglets -> ne pas oublier de recreer les barres de scroll
+	
+4) dans la fonction calculer, avant de faire afficher_resultat2, on efface l'affichage
+	original: 
+	    self.donnees = chaine.splitlines()
+            self.afficher_resultats2(self.donnees)
+            self.affectation_realisee = True
+        modification: 
+            self.donnees = chaine.splitlines()
+            self.effacer_affichage()
+            self.afficher_resultats2(self.donnees)
+            self.affectation_realisee = True
+            
+5) avec l'ajout d'un nouveau menu, ne pas oublier le resetHard pour les changements de langue
+	dans chargerMenuCalculer,
+		if (resetHard):
+            		for i in range(3): 
+        avec 3 au lieu de 2
+            
+            
+## passage automatique du viewer vers un onglet choisit lorsqu'on appuie sur un boutton 
+	par exemple si on choisit 'Afficher le remplissage des groupes', on bascule automatiquement sur cet onglet
+	
+1) modification unique sur gui.py
+	
+	- ajout d'une fonction aller_vers_onglet(onglet) où onglet doit se trouver forcement dans le notebook
+	
+	- modification dans __init()__:
+	     original:
+	     	self.menu2.add_command(label=Parametres.texte[10][Parametres.langue], 
+                               command=self.calculer, state=DISABLED)
+                self.menu2.add_command(label=Parametres.texte[11][Parametres.langue],
+                               command=[self.afficher_remplissage_groupes,state=DISABLED)
+                self.menu2.add_command(label=Parametres.texte[101][Parametres.langue],
+                               command=self.effacer_affichage)
+	     
+	     modification:
+	     	self.menu2.add_command(label=Parametres.texte[10][Parametres.langue], 
+                               command=lambda:[self.calculer(),self.aller_vers_onglet(self.onglet_affectations)], 
+                               state=DISABLED)
+        	self.menu2.add_command(label=Parametres.texte[11][Parametres.langue],
+                               command=lambda:[self.afficher_remplissage_groupes(),self.aller_vers_onglet(self.onglet_remplissage_groupes)],
+                               state=DISABLED)
+        	self.menu2.add_command(label=Parametres.texte[101][Parametres.langue],
+                               command=lambda:[self.effacer_affichage(),self.aller_vers_onglet(self.onglet_affectations)])
+                               
+2) modification des lambda des commande pour plus de flexibilité
+
+	- on veut pouvoir avoir des conditions sur les commandes :
+	    original depuis l'etape 1) précédente : 
+	     	self.menu2.add_command(label=Parametres.texte[10][Parametres.langue], 
+                               command=lambda:[self.calculer(),self.aller_vers_onglet(self.onglet_affectations)], 
+                               state=DISABLED)
+        	self.menu2.add_command(label=Parametres.texte[11][Parametres.langue],
+                               command=lambda:[self.afficher_remplissage_groupes(),self.aller_vers_onglet(self.onglet_remplissage_groupes)],
+                               state=DISABLED)
+        	self.menu2.add_command(label=Parametres.texte[101][Parametres.langue],
+                               command=lambda:[self.effacer_affichage(),self.aller_vers_onglet(self.onglet_affectations)])
+                
+            modification :
+                self.menu2.add_command(label=Parametres.texte[10][Parametres.langue], 
+                               command=lambda:self.commande_calculer(), 
+                               state=DISABLED)
+        	self.menu2.add_command(label=Parametres.texte[11][Parametres.langue],
+                               command=lambda:self.commande_afficher_remplissage(),
+                               state=DISABLED)
+        	self.menu2.add_command(label=Parametres.texte[101][Parametres.langue],
+                               command=lambda:self.commande_effacer_affichage())
+                               
+                               
+            ajout des fonctions:
+                def commande_calcul(self):
+                	res = self.calculer()
+                	if res :
+                		self.aller_vers_onglet(self.onglet_affectations)
+                	else :
+                	    	self.aller_vers_onglet(self.onglet_informations)
+    	
+		def commande_afficher_remplissage(self):
+			self.afficher_remplissage_groupes()
+			self.aller_vers_onglet(self.onglet_remplissage_groupes)
+    	
+		def commande_effacer_affichage(self):
+			self.effacer_affichage()
+			self.aller_vers_onglet(self.onglet_informations)
+                               
+                               
+         - cela implique une modification dans la fonction calculer() : si la fonction a bien fait le calcul, elle renvoie True. Sinon
+         	elle renverra False. Ainsi on va pouvoir, en fonction de ce résultat savoir si le programme va automatiquement aller, 
+         	repectivement vers l'onglet log ou l'onglet log comme montré dans la fonction commande_calcul() ci dessus
+
+
+
+## ajout d'un nouvel onglet pour afficher le log
+
+1) on veut un nouvel onglet
+	- cela se fait en plusieurs etapes, mais on doit d'abord avoir un nouvel onglet
+	        self.onglet_informations = Frame(self.notebook)
+		self.notebook.add(self.onglet_informations, text=Parametres.texte[171][Parametres.langue])
+		        
+	- on veut le remplir
+		self.afficher_onglet_log()
+		
+	- si on change de langue, on detruit son contenu et on le remplit de nouveau. Donc dans langue(self) :
+		self.efface_onglet_log()
+            	self.afficher_onglet_log()
+		
+	
+
+2) on defini simplement efface_onglet_log()
+	for widget in self.onglet_informations.winfo_children():
+    		widget.destroy()
+    		
+3) pour contruire le contenu de l'onglet dans la fonction afficher_onglet_log():
+	
+	- on a besoin d'afficher les fichiers chargés. On utilise Text pour créer une case. On fait en sorte que l'utilisateur ne puisse
+		modifier son contenu. On ajoute une barre de scroll au cas-où. Son affichage est limité à 8 ligne 
+		
+		self.logFile = Text(self.onglet_informations,
+    			height = 8, 
+    			font=("Helvetica",12))
+    		self.vsb = Scrollbar(self.onglet_informations)
+    		self.vsb.config(command=self.logFile.yview)
+    		self.logFile.config(yscrollcommand=self.vsb.set)
+    		self.logFile.grid(row=0, column=0)
+    		self.vsb.grid(row=0, column=1, sticky='ns')
+    		self.logFile.config(state=DISABLED)
+	
+	- on va afficher aussi les actions des utilisateurs ainsi que les erreurs dans la seconde case. On utilise egalement Text
+		self.logAction = Text(self.onglet_informations,
+    			font=("Helvetica",12))
+	    	self.vsb2 = Scrollbar(self.onglet_informations)
+	    	self.vsb2.config(command=self.logAction.yview)
+	    	self.logAction.config(yscrollcommand=self.vsb2.set)
+	    	self.logAction.grid(row=1, column=0) 
+	    	self.vsb2.grid(row=1, column=1, sticky='ns')
+		
+	- on veut egalement un bouton pour effacer le contenu du Text correspondant aux actions des utilisateurs
+		self.buttonRafraichir = Button(self.onglet_informations, text="Clear", command=lambda:self.effacer_texte_onglet_log())	
+		self.buttonRafraichir.grid(row=2,column=0,columnspan=2) 
+		
+4) on aura besoin des plusieurs fonctions pur l'affichage :
+
+	- pour l'affichage des fichiers:
+		def insertion_texte_fichier(self):
+		    	edt = Parametres.texte[64][Parametres.langue]+ " : "+Parametres.chemin_edt
+		    	voeux = Parametres.texte[65][Parametres.langue]+" : "+Parametres.chemin_voeux
+		    	self.logFile.config(state=NORMAL)
+		    	self.logFile.delete("1.0","end")
+		    	self.logFile.insert("end",edt+"\n")
+		    	self.logFile.insert("end","\n"+voeux)
+		    	self.logFile.config(state=DISABLED)
+		    	
+	- on modifie les fonctions charger_edt() et charger_voeux() pour qu'ils appellent la fonction précédemment décrite. Cette fonction
+		est aussi appelé à la fin de afficher_onglet_log()
+		
+	- pour l'affichage du log, on a une fonction qui va simplement écrite à la suite du texte de logAction. Une fonction similaire 
+	  	est aussi créé afin d'afficher les erreurs dans le log
+		
+		def insertion_texte_log(self,texte):
+		    	self.logAction.insert("end",texte+"\n")
+		    
+		def afficher_erreurs_log(self,messages):
+		    	self.insertion_texte_log("\n===============================\n")
+		    	for (i,message) in messages:
+		    		self.insertion_texte_log(Parametres.texte[61][Parametres.langue]+str(i)+"\n"+message)
+		    	self.insertion_texte_log("===============================\n")
+		    	
+	- on modifie différentes fonctions où on veut un affichage. s
+	
+	
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

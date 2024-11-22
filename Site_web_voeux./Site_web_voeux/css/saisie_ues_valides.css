@@ -1,0 +1,6 @@
+input[type="checkbox"]
+{
+    display: block;
+    width: 20px;
+    float: left;
+} 

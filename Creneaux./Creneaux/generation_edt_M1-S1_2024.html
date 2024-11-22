@@ -1,0 +1,925 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
+
+
+
+    <head>
+        <title>SU, Master Informatique : Recherche d'Emploi du Temps M1-S1</title>
+
+
+<script>
+
+  // si on ne veut que voir les agencements d'UE compatibles, mettre à 1
+  var compatible = 0;
+
+  var listeUE = {'sup1x': [['lu00'], ['lu02', 'lu04']], 'sup2x': [['ma00'], ['ma02', 'ma04']], 'sup3x': [['me00'], ['me02', 'me04']], 'sup4x': [['je00'], ['je02', 'je04']], 'sup5x': [['ve00'], ['ve02', 've04']],
+    'maths4m062': [['lu16'], ['me10', 've04']],
+    'aagb': [['lu10'], ['me16', 've16']],
+    'algav': [['ma10'], ['lu13', 'lu16'], ['je08', 'je10']],
+    'archi' :[['je13'], ['ma08','ma10'], ['ma13','ma16']],
+    'archi_en' :[['je10'], [], [], ['me13','me16']],
+    'ares': [['lu08'], [], [], ['me08', 'me10'], ['je13', 'je16']],
+    'bima': [['ma13'], ['je13', 'je16'], [], ['je13', 'je16']],
+    'bima_en': [['lu13'], [], ['ma08', 'ma10']],
+    'comnet_en': [['ve10'], ['ve13','ve16']],
+    'complex': [['je10'], ['lu08', 'lu10'], ['me08', 'me10'], ['je13', 'je16']],
+    'dlp': [['ma08'], ['je13', 'je16'], ['je13', 'je16']],
+    'esa' :[['lu10', 've16'], ['lu13','lu16']],
+    'lrc': [['me13'], ['lu13', 'lu16'], ['lu13', 'lu16'], ['je08', 'je10'], ['je08', 'je10']],
+    'mapsi': [['ma16'], ['lu08', 'lu10'], ['lu13', 'lu16'], ['ma08', 'ma10'],['ma08', 'ma13'], ['ma08', 'ma10']],
+    'mlbda': [['me16'], ['lu08', 'lu10'], ['me08', 'me10'], ['je08', 'je10']],
+    'mobj': [['lu08'], ['me13', 'me16']],
+    'model': [['ve08'], ['me13', 'me16']],
+    'model_en': [['ve08'], [], ['lu08', 'lu10']],
+    'mogpl':[['ve08'], ['lu13','lu16'], ['je13','je16'], ['ve10','ve13'], ['ve10','ve13']],
+    'noyau': [['lu16'], ['ma13', 'ma16'], ['ma13', 'ma16'], ['me13', 'me16']],
+    'ouv_ang' : [['ma13', 've13'], ['ma16','ve16']],
+    'ppar_en': [['me08'], ['ve13', 've16'], ['ma08', 'ma10']],
+    'progres' : [['ve13'], ['ve16','ve17']],
+    'pscr': [['lu13'], ['me08', 'me10'], ['me13', 'me16'], ['ve10', 've13']],
+    'qclg_qk4cs_en': [['lu16', 'je13'], ['je08', 'je04']],
+    'qph4cs_en': [['ma13'], ['ma16', 'je16']],
+    'rtel': [['lu10'], [], ['ma13', 'ma16'], ['me08', 'me10']],
+    'sc': [['lu10'], ['ma13', 'ma16'], []],
+    'sigcom_en': [['lu10'], ['me08','me10']],
+    'signal': [['ve10'], ['ma08','ma10'], ['je08','je10']],
+    'vlsi': [['je16'], ['me08','me10']]
+	};
+
+
+
+  var liste = ["maths4m062", "aagb", "algav", "archi", "archi_en", "ares", "bima", "bima_en", "comnet_en", "complex", "sigcom_en", "dlp", "esa", "lrc", "mapsi", "mlbda", "mobj", "model", "model_en", "mogpl", "noyau", "ouv_ang", "ppar_en", "progres", "pscr", "qclg_qk4cs_en",  "qph4cs_en", "rtel", "sc", "signal", "vlsi"];
+  var listeSup = liste.concat(["sup1x","sup2x","sup3x","sup4x","sup5x"]);
+
+  var spe = ['MOB', 'ANDROIDE', 'BIM', 'CCA', 'DAC', 'IMA', 'IQ', 'RES', 'SAR', 'SESI', 'STL'];
+
+  var UE = {'MOB':[], 'ANDROIDE':["lrc", "mogpl"], 'BIM':["mapsi", "aagb", "maths4m062"], 'CCA':["model", "complex"], 'DAC':["mlbda", "lrc", "mapsi"],
+               'IMA':["bima", "mapsi"], 'IQ':["qclg_qk4cs_en", "qph4cs_en"], 'RES':["ares", "rtel", "progres"], 'SAR':["noyau", "pscr"],
+               'SESI':["archi", "vlsi"],'STL':["algav", "dlp", "ouv_ang"]};
+
+  var UEpossibles = {
+    'MOB':liste,
+    'ANDROIDE':["mapsi", "complex", "mlbda", "bima_en", "bima", "aagb", "model","model_en", "pscr", "signal", "algav", "dlp", "qclg_qk4cs_en"],
+    'BIM':["bima", "bima_en", "bima", "lrc", "mogpl", "complex", "model", "model_en", "algav", "mlbda"],
+    'CCA':["ares", "archi", "noyau", "pscr", "ppar_en", "qclg_qk4cs_en", "mlbda", "mogpl", "mapsi", "mapsi"],
+    'DAC':["bima_en", "bima", "complex", "model", "model_en", "mogpl", "aagb", "signal"],
+    'IMA':["model", "model_en", "mogpl", "aagb", "algav", "mlbda", "archi", "mobj", "ares", "complex", "noyau", "dlp", "pscr", "rtel", "signal", "lrc", "vlsi", "ppar_en"],
+    'IQ':["model", "model_en", "algav", "complex", "mogpl", "sigcom_en", "ppar_en", "comnet_en"],
+    'RES':["archi", "complex", "signal", "mogpl", "noyau", "pscr", "mapsi", "algav", "mlbda"],
+    'SAR':["archi", "ares", "dlp", "algav", "aagb", "mapsi", "mlbda", "mobj", "model", "model_en", "bima", "bima_en", "mogpl", "complex", "rtel", "signal", "lrc", "vlsi", "sc", "ppar_en"],
+    'SESI':["esa", "mobj", "signal", "ares", "rtel", "pscr", "noyau", "aagb", "mapsi", "algav", "mlbda", "model", "model_en", "bima", "bima_en", "mogpl", "complex", "dlp", "lrc", "sc"],
+    'STL':["lrc", "noyau", "pscr", "mlbda", "mapsi", "archi", "ares", "model", "model_en", "mogpl", "complex", "mapsi"]
+		};
+</script>
+
+    </head>
+
+<body>
+
+<h1>
+	SU : Master Informatique
+</h1>
+
+<table><tr>
+
+<td width='200'>
+
+<legend><h3> Parcours : </h3></legend>
+	<select name="spe" id="spe" onchange="suivre(); interdits(); indispos();" >
+		<option value='personne'>Parcours &agrave; choisir</option>
+    <option value='MOB'>Mobilité</option>
+		<option value='ANDROIDE'>ANDROIDE</option>
+		<option value='BIM'>BIM</option>
+    <option value='CCA'>CCA</option>
+		<option value='DAC'>DAC</option>
+		<option value='IMA'>IMA</option>
+		<option value='IQ'>IQ</option>
+		<option value='RES'>RES</option>
+		<option value='SAR'>SAR</option>
+		<option value='SESI'>SESI</option>
+		<option value='STL'>STL</option>
+	</select>
+	<!-- <input id="remplir" type="button" value="Valider" onclick="suivre(); interdits(); indispos();" />  -->
+
+</td>
+
+
+<td>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+<td>
+
+
+<legend><h3> Nombre d'UE &agrave; suivre : </h3></legend>
+	 <select name="nb" id="nb">
+		<option value=6>6</option>
+		<option value=5 selected>5</option>
+		<option value=4>4</option>
+		<option value=3>3</option>
+		<option value=2>2</option>
+		<option value=1>1</option>
+	  </select>
+
+</td>
+</tr>
+
+<tr>
+
+
+<td>
+
+<legend>
+        <h3>
+            UE obligatoires :
+        </h3>
+ </legend>
+
+<div id='asuivre'></div>
+
+<script>
+ function suivre(){
+
+ 	var doc = "<table>";
+
+ 	for (i=0; i<liste.length; i++) {
+ 	  doc = doc.concat("<tr><td width='300'> <input type='checkbox' name='");
+ 	  doc = doc.concat(liste[i]);
+ 	  doc = doc.concat("' id='");
+ 	  doc = doc.concat(liste[i]);
+ 	  doc = doc.concat("'");
+ 	  if (UE[document.getElementById("spe").value].indexOf(liste[i]) > -1) {
+ 	    doc = doc.concat(" checked='checked' ");
+ 	  }
+ 	  doc = doc.concat("/><label for='");
+ 	  doc = doc.concat(liste[i]);
+ 	  doc = doc.concat("'>");
+ 	  doc = doc.concat(liste[i].toUpperCase());
+ 	  doc = doc.concat("</label> </td></tr> ");
+    }
+
+    doc = doc.concat("<tr><td> <input type='hidden' name='sup1x' id='sup1x'/></td><td> <input type='hidden' name='sup2x' id='sup2x'/></td><td> <input type='hidden' name='sup3x' id='sup3x'/></td><td> <input type='hidden' name='sup4x' id='sup4x'/></td><td> <input type='hidden' name='sup5x' id='sup5x'/></td></tr></table>");
+    document.getElementById("asuivre").innerHTML = doc;
+
+ }
+</script>
+
+
+
+</td>
+<td>
+<legend>
+        <h3>
+            UE interdites :
+        </h3>
+ </legend>
+
+
+<div id='interdit'></div>
+
+<script>
+ function interdits(){
+
+ 	var doc = "<table>";
+
+ 	for (i=0; i<(liste.length); i++) {
+ 	  doc = doc.concat("<tr><td width='200'> <input type='checkbox' name='X");
+ 	  doc = doc.concat(liste[i]);
+ 	  doc = doc.concat("' id='X");
+ 	  doc = doc.concat(liste[i]);
+ 	  doc = doc.concat("'");
+ 	  if ((UEpossibles[document.getElementById("spe").value].indexOf(liste[i]) == -1) & (UE[document.getElementById("spe").value].indexOf(liste[i]) == -1))  {
+ 	    doc = doc.concat(" checked='checked' ");
+ 	  }
+ 	  doc = doc.concat("/><label for='X");
+ 	  doc = doc.concat(liste[i]);
+ 	  doc = doc.concat("'>");
+ 	  doc = doc.concat(liste[i].toUpperCase());
+ 	  doc = doc.concat("</label> </td></tr> ");
+    }
+
+    doc = doc.concat("<tr><td> <input type='hidden' name='Xsup1x' id='Xsup1x'/></td><td> <input type='hidden' name='Xsup2x' id='Xsup2x'/></td><td> <input type='hidden' name='Xsup3x' id='Xsup3x'/></td><td> <input type='hidden' name='Xsup4x' id='Xsup4x'/></td><td> <input type='hidden' name='Xsup5x' id='Xsup5x'/></td></tr></table>");
+    document.getElementById("interdit").innerHTML = doc;
+ }
+</script>
+
+
+</td>
+
+
+<td>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+</td>
+<td>
+<legend>  <h3>
+            Groupes de TD r&eacute;serv&eacute;s (les laisser coch&eacute;s
+             sauf si r&eacute;serv&eacute;s pour vous) :
+        </h3> </legend>
+
+<div id='indispo'></div>
+
+<script>
+ function indispos(){
+
+  	var doc = "";
+  	doc = doc.concat(" <fieldset> <table> ");
+
+ 	for (i=0; i<(liste.length); i++) {
+
+ 	  doc = doc.concat("<tr>");
+ 	  for (j=0; j<listeUE[liste[i]].length-1; j++) {
+   	    doc = doc.concat("<td width='200'> <input type='checkbox' name='");
+ 	    doc = doc.concat(liste[i]);
+ 	    doc = doc.concat("-");
+ 	    doc = doc.concat(j+1);
+ 	    doc = doc.concat("' id='");
+ 	    doc = doc.concat(liste[i]);
+ 	    doc = doc.concat("-");
+ 	    doc = doc.concat(j+1);
+ 	    doc = doc.concat("'");
+
+ 	    var lchecked = ["archi_en1", "archi_en2", "ares1", "ares2", "bima2", "bima_en1",  //non ouverts
+        ,"model_en1", "sc2"];
+//        "algav2", "archi1", "bima1", "pscr2"]; //pleins
+
+	    if (document.getElementById("spe").value != 'BIM') {
+	        lchecked.push('maths4m062');
+	    }
+      if (document.getElementById("spe").value != 'RES') {
+      	lchecked.push('progres1');
+      }
+      if (document.getElementById("spe").value != 'STL') {
+      	lchecked.push('ouv_ang1');
+      }
+
+		  var k;
+ 	    var gr = "";
+ 	    gr = gr.concat(liste[i]);
+ 	    gr = gr.concat(j+1);
+ 	    for (k=0; k<lchecked.length; k++) {
+ 	    	if (lchecked[k] == gr || listeUE[liste[i]][j+1].length==0) {
+ 	    		doc = doc.concat(" checked='checked' ");
+ 	    	}
+ 	    }
+ 	    doc = doc.concat("/><label for='");
+ 	    doc = doc.concat(liste[i]);
+ 	    doc = doc.concat("-");
+ 	    doc = doc.concat(j+1);
+ 	    doc = doc.concat("'/>");
+ 	    doc = doc.concat(liste[i].toUpperCase());
+ 	    doc = doc.concat("-");
+ 	    doc = doc.concat(j+1);
+ 	    doc = doc.concat(" </label> </td><td width='2%'> </td>");
+ 	  }
+
+    }
+  	doc = doc.concat("</table> </fieldset>");
+    document.getElementById("indispo").innerHTML = doc;
+
+ }
+</script>
+
+
+
+</td>
+
+</tr>
+
+</table>
+
+
+
+<hr>
+
+<input id="Recherche" type="button" value="Recherche" onclick="prep();" />
+
+<hr>
+
+<table>
+
+<td valign="top">
+<div id='ues'></div>
+</td>
+
+<td>
+	 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</td>
+
+<td valign="top">
+<div id='edt'></div>
+</td>
+
+</tr>
+
+</table>
+
+
+<script language=JavaScript>
+
+function vide() {
+	//alert('ici');
+	//var contenu = document.getElementById("ues").value;
+	//alert('la');
+	if (document.getElementById("ues")) {
+		window.location.reload();
+
+}
+}
+
+function test(ue) {
+  //alert(ue)
+    var listeUE2 = {};
+  //duplication de listeUE
+  for (i=0; i<listeSup.length; i++) {
+
+  		listeUE2[listeSup[i]] = [listeUE[listeSup[i]][0]];
+		for (j=1; j<listeUE[listeSup[i]].length; j++) {
+			listeUE2[listeSup[i]][j] = [];
+			for (k=0; k<listeUE[listeSup[i]][j].length; k++) {
+				listeUE2[listeSup[i]][j][k] = listeUE[listeSup[i]][j][k];
+			}
+
+
+		}
+	}
+
+	for (i=0; i<liste.length; i++) {
+		for (j=1; j<listeUE2[liste[i]].length; j++) {
+			if (document.getElementById(liste[i] + "-" + j.toString()).checked) {
+				listeUE2[liste[i]][j] = [];
+			}
+		}
+	}
+
+    var l = [];
+
+    var choix = ue.split(',');
+  //  alert(choix);
+
+    var choix_poids = [[],[],[],[],[],[]];
+
+    for (i = 0; i < 6; i++)  {
+   //// alert(i);
+        choix_poids[i] = [listeUE2[choix[i]].length, choix[i]];
+    }
+   // alert('ccc');
+  //  alert(choix_poids);
+
+    var listeEDT = [];
+    var EDT = [];
+    var ue1 = 0;var ue2 = 0;var ue3 = 0;var ue4 = 0;var ue5 = 0;var ue6 = 0;
+	var nb = 0;
+
+    for (ue1 = 1; ue1 < choix_poids[0][0]; ue1++) {
+    	EDT = [];
+      arret = 0
+        for (i=0; i<6; i++) {
+        	//nb = 0;
+        	for (j=0; j<listeUE2[choix_poids[i][1]][0].length; j++){
+					  //      nb = nb+1;
+                  if  (EDT.indexOf(listeUE2[choix_poids[i][1]][0][j])!=-1) {
+                    arret = 1;
+                  }
+    	            EDT.push(listeUE2[choix_poids[i][1]][0][j]);
+
+
+        	}
+        }
+ //       alert(EDT.length);
+ 		if (arret==1){
+ 			break;
+ 		}
+
+        while (ue1 < choix_poids[0][0] && (listeUE2[choix_poids[0][1]][ue1].length == 0 || EDT.indexOf(listeUE2[choix_poids[0][1]][ue1][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[0][1]][ue1][1])!=-1)) {
+            ue1++;
+        }
+        if (ue1 == choix_poids[0][0]) {
+			break;
+        }
+
+        EDT.push(listeUE2[choix_poids[0][1]][ue1][0]);
+        EDT.push(listeUE2[choix_poids[0][1]][ue1][1]);
+        //          alert(EDT.length);
+
+        for (ue2 = 1; ue2 < choix_poids[1][0]; ue2++) {
+            while (ue2 < choix_poids[1][0] && (listeUE2[choix_poids[1][1]][ue2].length == 0 || EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][1])!=-1)) {
+                ue2++;
+            }
+            if (ue2 == choix_poids[1][0]) {
+				break;
+            }
+
+            EDT.push(listeUE2[choix_poids[1][1]][ue2][0]);
+            EDT.push(listeUE2[choix_poids[1][1]][ue2][1]);
+
+            for (ue3 = 1; ue3 < choix_poids[2][0]; ue3++) {
+                while (ue3 < choix_poids[2][0] && (listeUE2[choix_poids[2][1]][ue3].length == 0 || EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][1])!=-1)) {
+                    ue3++;
+                }
+                if (ue3 == choix_poids[2][0]) {
+					break;
+                }
+
+                EDT.push(listeUE2[choix_poids[2][1]][ue3][0]);
+                EDT.push(listeUE2[choix_poids[2][1]][ue3][1]);
+
+                for (ue4 = 1; ue4 < choix_poids[3][0]; ue4++) {
+                    while (ue4 < choix_poids[3][0] && (listeUE2[choix_poids[3][1]][ue4].length == 0 || EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][1])!=-1)) {
+                        ue4++;
+                    }
+                    if (ue4 == choix_poids[3][0]) {
+        	            break;
+                    }
+
+                    EDT.push(listeUE2[choix_poids[3][1]][ue4][0]);
+                    EDT.push(listeUE2[choix_poids[3][1]][ue4][1]);
+
+                    for (ue5 = 1; ue5 < choix_poids[4][0]; ue5++) {
+                        while (ue5 < choix_poids[4][0] && (listeUE2[choix_poids[4][1]][ue5].length == 0 || EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][1])!=-1)) {
+                            ue5++;
+                        }
+                        if (ue5 == choix_poids[4][0]) {
+        	                break;
+                        }
+
+                        EDT.push(listeUE2[choix_poids[4][1]][ue5][0]);
+                        EDT.push(listeUE2[choix_poids[4][1]][ue5][1]);
+
+                        for (ue6 = 1; ue6 < choix_poids[5][0]; ue6++) {
+                        	while (ue6 < choix_poids[5][0] && (listeUE2[choix_poids[5][1]][ue6].length == 0 || EDT.indexOf(listeUE2[choix_poids[5][1]][ue6][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[5][1]][ue6][1])!=-1)) {
+                            	ue6++;
+                        	}
+                        	if (ue6 == choix_poids[5][0]) {
+        	                	break;
+                        	}
+
+                        	return true;
+
+                        }
+                        EDT.splice(EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][0]),1);
+                        EDT.splice(EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][1]),1);
+                    }
+                    EDT.splice(EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][0]),1);
+                    EDT.splice(EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][1]),1);
+                }
+                EDT.splice(EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][0]),1);
+                EDT.splice(EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][1]),1);
+            }
+            EDT.splice(EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][0]),1);
+            EDT.splice(EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][1]),1);
+        }
+    }
+
+	return false;
+
+
+}
+
+
+
+ function suivant(indices, max) {
+ 	var i=indices.length-1;
+
+ 	indices[i] = indices[i]+1;
+
+ 	while (indices[i]>max-(indices.length-i) && i>0) {
+ 		i = i-1;
+ 		indices[i] = indices[i]+1;
+ 	}
+ 	i = i+1;
+ 	while (i<indices.length) {
+ 		indices[i] = indices[i-1]+1;
+ 		i = i+1;
+ 	}
+ 	return indices;
+ }
+
+
+ function prep() {
+
+		document.getElementById("spe").innerHTML = "";
+		document.getElementById("edt").innerHTML = "";
+
+ 		// test meme UE à suivre et interdite
+ 		    var interdit = "X";
+ 		    for (i=0; i<liste.length; i++) {
+                if(document.getElementById(liste[i]).checked && document.getElementById(interdit.concat(liste[i])).checked) {
+                    alert("La même UE est sélectionnée 'à suivre' et 'interdite'");
+                    return -1;
+                }
+            }
+
+            var i;
+
+            UE = [];
+
+    		var l = ['sup1x', 'sup2x', 'sup3x', 'sup4x','sup5x'];
+
+			interdit = "X";
+			for (i=0; i<liste.length; i++) {
+                if(document.getElementById(interdit.concat(liste[i])).checked != true) {
+                    l.push(liste[i]);
+                }
+            }
+         //	alert(l);
+
+         	var liste2 = l;  //toutes les UE possibles
+
+
+            for (i=5; i<liste2.length; i++) {
+                if(document.getElementById(liste2[i]).checked) {
+                    UE.push(liste2[i]);   //UE obligatoirement choisies
+                }
+            }
+       //  	alert(UE);
+
+         	nb = document.getElementById("nb").value;
+        	for (i=0; i<6-nb; i++) {
+         		UE.push(liste2[i]);
+         	}
+   //      	alert(UE);  //on complete avec les sup
+
+         	l1 = [];
+         	for (i=5; i<liste2.length; i++) {
+                if (UE.indexOf(liste2[i]) == -1) {
+                    l1.push(liste2[i]);
+                }
+            }
+    //	l1 toutes les UEs possibles à ajouter
+
+
+            ue = UE.slice();
+            afficheUES = "";
+
+            var indices = [];
+			for (i=0; i<6-UE.length; i++) {
+                indices.push(i);
+            }
+//			alert(indices.length); // liste des indices des ue qui completent
+
+//			while (indices[0] <= l1.length-indices.length) {
+//				indices = suivant(indices, l1.length);
+//			}
+//			alert(indices)   on déroule tout le compteur
+
+
+			var L = [];
+
+            if (indices.length == 0) {
+            	uestr = "";
+                for (i=0; i<6; i++) {
+                	uestr = uestr + "," + ue[i];
+                }
+
+                uestr = uestr.slice(1, uestr.length);
+                if (test(uestr)) {
+                    ueSTR = "";
+                    for (i=0; i<6; i++) {
+                        if (ue[i].slice(0,3) != "sup") {
+                            ueSTR = ueSTR + "," + ue[i].toUpperCase();
+                        }
+                    }
+
+                    //alert(ueSTR);
+                    L.push(ueSTR);
+
+                    ueSTR = ueSTR.slice(1, ueSTR.length);
+                    afficheUES = afficheUES + '<input id="' + ueSTR + '" type="button" value="' + ueSTR + '" onclick=\"edt(\'' + ue +  '\');\" /><br>';
+                }
+            }
+            else{
+
+            while (indices[0] <= l1.length-indices.length) {
+            	ue = UE.slice();
+            	for (i=0; i<indices.length; i++) {
+                	ue.push(l1[indices[i]]);
+                }
+
+                uestr = "";
+                for (i=0; i<6; i++) {
+                	uestr = uestr + "," + ue[i];
+                }
+                uestr = uestr.slice(1, uestr.length);
+                if (test(uestr)) {
+                    ueSTR = "";
+                    ueSTR2 = [];
+                    for (i=0; i<6; i++) {
+                        if (ue[i].slice(0,3) != "sup") {
+                            ueSTR = ueSTR + ",&nbsp;&nbsp;" + ue[i].toUpperCase();
+                            ueSTR2.push(ue[i].toUpperCase());
+                        }
+                    }
+
+                    ueSTR2.sort()
+                    ueSTR3 = ueSTR2.join();
+                    //alert(ueSTR3);
+                    L.push(ueSTR3);
+
+                    ueSTR = ueSTR.slice(1, ueSTR.length);
+
+                    afficheUES = afficheUES + '<input id="' + ueSTR + '" type="button" value="' + ueSTR + '" onclick=\"edt(\'' + ue +  '\');\" /><br>';
+
+                }
+                indices = suivant(indices, l1.length);
+            }
+       		}
+
+			document.getElementById("ues").innerHTML = afficheUES;
+
+
+    if(compatible == 1){
+      var s = '[';
+			for (let key in L) {
+			  s = s + '"' + L[key] + '", ';
+			}
+			s = s + ']';
+//    A décommenter pour avoir le liste des chaines d'UE compatibles XXXXXXXXXXXXXXXXXXXXXXX
+//			alert(s);
+      document.getElementById("ues").innerHTML = s;
+}
+			if(afficheUES=="") {
+				alert('Il n\'y a aucun emploi du temps possible');
+			}
+
+}
+
+
+
+function edt(ue) {
+
+ var listeUE2 = {};
+  //duplication de listeUE
+  for (i=0; i<listeSup.length; i++) {
+  		listeUE2[listeSup[i]] = [listeUE[listeSup[i]][0]];
+		for (j=1; j<listeUE[listeSup[i]].length; j++) {
+			listeUE2[listeSup[i]][j] = [];
+			for (k=0; k<listeUE[listeSup[i]][j].length; k++) {
+				listeUE2[listeSup[i]][j][k] = listeUE[listeSup[i]][j][k];
+			}
+		}
+	}
+
+	for (i=0; i<liste.length; i++) {
+		for (j=1; j<listeUE2[liste[i]].length; j++) {
+			if (document.getElementById(liste[i] + "-" + j.toString()).checked) {
+				listeUE2[liste[i]][j] = [];
+			}
+		}
+	}
+
+    var l = [];
+
+    var choix = ue.split(',');
+  //  alert(choix);
+
+    var choix_poids = [[],[],[],[],[],[]];
+   // alert('coucou');
+    for (i = 0; i < 6; i++)  {
+   //// alert(i);
+        choix_poids[i] = [listeUE2[choix[i]].length, choix[i]];
+    }
+   // alert('ccc');
+  //  alert(choix_poids);
+ /*
+    var tmp = [];
+    var rep = true;
+    while (rep) {
+        rep = false;
+        for (i = 0; i < 4; i++) {
+            if (choix_poids[i][0] > choix_poids[i+1][0]) {
+                tmp = choix_poids[i];
+                choix_poids[i] = choix_poids[i+1];
+                choix_poids[i+1] = tmp;
+                rep = true;
+            }
+        }
+    }
+  //         alert(choix_poids);
+
+  */
+    var listeEDT = [];
+    var EDT = [];
+    var ue1 = 0;var ue2 = 0;var ue3 = 0;var ue4 = 0;var ue5 = 0;var ue6 = 0;
+
+    for (ue1 = 1; ue1 < choix_poids[0][0]; ue1++) {
+		EDT = [];
+        for (i=0; i<6; i++) {
+        	for (j=0; j<listeUE2[choix_poids[i][1]][0].length; j++){
+	            if (EDT.indexOf(listeUE2[choix_poids[i][1]][0][j]) == -1) {
+    	            EDT.push(listeUE2[choix_poids[i][1]][0][j]);
+        	    }
+        	    else {
+        	    	break;
+        	    }
+        	}
+        }
+
+
+        while (ue1 < choix_poids[0][0] && (listeUE2[choix_poids[0][1]][ue1].length == 0 || EDT.indexOf(listeUE2[choix_poids[0][1]][ue1][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[0][1]][ue1][1])!=-1)) {
+            ue1++;
+        }
+        if (ue1 == choix_poids[0][0]) {
+			break;
+        }
+
+        EDT.push(listeUE2[choix_poids[0][1]][ue1][0]);
+        EDT.push(listeUE2[choix_poids[0][1]][ue1][1]);
+        //          alert(EDT.length);
+
+        for (ue2 = 1; ue2 < choix_poids[1][0]; ue2++) {
+            while (ue2 < choix_poids[1][0] && (listeUE2[choix_poids[1][1]][ue2].length == 0 || EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][1])!=-1)) {
+                ue2++;
+            }
+            if (ue2 == choix_poids[1][0]) {
+				break;
+            }
+
+            EDT.push(listeUE2[choix_poids[1][1]][ue2][0]);
+            EDT.push(listeUE2[choix_poids[1][1]][ue2][1]);
+
+            for (ue3 = 1; ue3 < choix_poids[2][0]; ue3++) {
+                while (ue3 < choix_poids[2][0] && (listeUE2[choix_poids[2][1]][ue3].length == 0 || EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][1])!=-1)) {
+                    ue3++;
+                }
+                if (ue3 == choix_poids[2][0]) {
+					break;
+                }
+
+                EDT.push(listeUE2[choix_poids[2][1]][ue3][0]);
+                EDT.push(listeUE2[choix_poids[2][1]][ue3][1]);
+
+                for (ue4 = 1; ue4 < choix_poids[3][0]; ue4++) {
+                    while (ue4 < choix_poids[3][0] && (listeUE2[choix_poids[3][1]][ue4].length == 0 || EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][1])!=-1)) {
+                        ue4++;
+                    }
+                    if (ue4 == choix_poids[3][0]) {
+        	            break;
+                    }
+
+                    EDT.push(listeUE2[choix_poids[3][1]][ue4][0]);
+                    EDT.push(listeUE2[choix_poids[3][1]][ue4][1]);
+
+                    for (ue5 = 1; ue5 < choix_poids[4][0]; ue5++) {
+                        while (ue5 < choix_poids[4][0] && (listeUE2[choix_poids[4][1]][ue5].length == 0 || EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][1])!=-1)) {
+                            ue5++;
+                        }
+                        if (ue5 == choix_poids[4][0]) {
+        	                break;
+                        }
+
+                        EDT.push(listeUE2[choix_poids[4][1]][ue5][0]);
+                        EDT.push(listeUE2[choix_poids[4][1]][ue5][1]);
+
+                        for (ue6 = 1; ue6 < choix_poids[5][0]; ue6++) {
+                        	while (ue6 < choix_poids[5][0] && (listeUE2[choix_poids[5][1]][ue6].length == 0 || EDT.indexOf(listeUE2[choix_poids[5][1]][ue6][0])!=-1 || EDT.indexOf(listeUE2[choix_poids[5][1]][ue6][1])!=-1)) {
+                            	ue6++;
+                        	}
+                        	if (ue6 == choix_poids[5][0]) {
+        	                	break;
+                        	}
+
+                        	EDT.push(listeUE2[choix_poids[5][1]][ue6][0]);
+                        	EDT.push(listeUE2[choix_poids[5][1]][ue6][1]);
+
+
+                        	l = [[choix_poids[0][1], ue1],[choix_poids[1][1], ue2], [choix_poids[2][1], ue3], [choix_poids[3][1], ue4], [choix_poids[4][1], ue5], [choix_poids[5][1], ue6]];
+
+                        	listeEDT.push([1, l]);
+
+                        	EDT.splice(EDT.indexOf(listeUE2[choix_poids[5][1]][ue6][0]),1);
+                        	EDT.splice(EDT.indexOf(listeUE2[choix_poids[5][1]][ue6][1]),1);
+                        }
+                        EDT.splice(EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][0]),1);
+                        EDT.splice(EDT.indexOf(listeUE2[choix_poids[4][1]][ue5][1]),1);
+                    }
+                    EDT.splice(EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][0]),1);
+                    EDT.splice(EDT.indexOf(listeUE2[choix_poids[3][1]][ue4][1]),1);
+                }
+                EDT.splice(EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][0]),1);
+                EDT.splice(EDT.indexOf(listeUE2[choix_poids[2][1]][ue3][1]),1);
+            }
+            EDT.splice(EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][0]),1);
+            EDT.splice(EDT.indexOf(listeUE2[choix_poids[1][1]][ue2][1]),1);
+        }
+    }
+
+    doc = "<br></br><table><tr><td width='20'></td><td width='300'> ";
+
+    var ue2 = ue.split(',');
+    var txt =''
+    for (i=0; i<6; i++) {
+      if (ue2[i].substring(0,3) != 'sup'){
+        txt = txt.concat(ue2[i].toUpperCase()+', ');
+      }
+    }
+
+    doc = doc.concat(txt.substring(0,txt.length-2));
+    doc = doc.concat("<br><br> Il y a ");
+    doc = doc.concat(listeEDT.length.toString());
+    doc = doc.concat(" emplois du temps.</td><td width='20'></td></tr></table><br></br>");
+
+    var asso = {};
+    var r = 0;
+    var l = [];
+    var ll = 0;
+
+    doc = doc.concat("<br></br><table>");
+    if (listeEDT.length > 0) {
+
+
+        for (i=0; i<listeEDT.length; i++) {
+
+            doc = doc.concat("<tr><td width='28'></td> <td width='500'>");
+ /////XXXXX
+            asso = {};
+            for (r=0; r<6; r++) {
+            	for (j=0; j < listeUE[ listeEDT[i][1] [r][0] ][0].length; j++){
+            		asso[listeUE[ listeEDT[i][1] [r][0] ][0][j]] = listeEDT[i][1] [r][0].toUpperCase();
+            	}
+                asso[listeUE2[ listeEDT[i][1] [r][0] ][listeEDT[i][1] [r][1]] [0]] = listeEDT[i][1] [r][0].toUpperCase() + "-" + listeEDT[i][1] [r][1];
+                asso[listeUE2[ listeEDT[i][1] [r][0] ][listeEDT[i][1] [r][1]] [1]] = listeEDT[i][1] [r][0].toUpperCase() + "-" + listeEDT[i][1] [r][1];
+            }
+
+
+            doc = doc.concat("<table border='1'><tr> <th></th> <th>lundi</th> <th>mardi</th> <th>mercredi</th> <th>jeudi</th> <th>vendredi</th> </tr>");
+
+            doc = doc.concat("<tr> <th>8:30 - 10:30</th>");
+            txt = "";
+            l = ['lu08', 'ma08', 'me08', 'je08', 've08'];
+            for (ll=0; ll<l.length; ll++) {
+                txt = txt + "<td align=center>";
+                if (asso[l[ll]] != undefined) {
+                    txt = txt + asso[l[ll]];
+                }
+                txt = txt + "</td>";
+            }
+            doc = doc.concat(txt);
+
+            doc = doc.concat("</tr><tr> <th>10:45 - 12:45</th>");
+            txt = "";
+            l = ['lu10', 'ma10', 'me10', 'je10', 've10'];
+            for (ll=0; ll<l.length; ll++) {
+                txt = txt + "<td align=center>";
+                if (asso[l[ll]] != undefined) {
+                    txt = txt + asso[l[ll]];
+                }
+                txt = txt + "</td>";
+            }
+            doc = doc.concat(txt);
+
+            doc = doc.concat("</tr><tr> <th>13:45 - 15:45</th>");
+            txt = "";
+            l = ['lu13', 'ma13', 'me13', 'je13', 've13'];
+            for (ll=0; ll<l.length; ll++) {
+                txt = txt + "<td align=center>";
+                if (asso[l[ll]] != undefined) {
+                    txt = txt + asso[l[ll]];
+                }
+                txt = txt + "</td>";
+            }
+            doc = doc.concat(txt);
+
+            doc = doc.concat("</tr><tr> <th>16:00 - 18:00</th>");
+            txt = "";
+            l = ['lu16', 'ma16', 'me16', 'je16', 've16'];
+            for (ll=0; ll<l.length; ll++) {
+                txt = txt + "<td align=center>";
+                if (asso[l[ll]] != undefined) {
+                    txt = txt + asso[l[ll]];
+                }
+                txt = txt + "</td>";
+            }
+            doc = doc.concat(txt);
+
+            doc = doc.concat("</tr><tr> <th>18:15 - 20:15</th>");
+            txt = "";
+            l = ['lu18', 'ma18', 'me18', 'je18', 've18'];
+            for (ll=0; ll<l.length; ll++) {
+                txt = txt + "<td align=center>";
+                if (asso[l[ll]] != undefined) {
+                    txt = txt + asso[l[ll]];
+                }
+                txt = txt + "</td>";
+            }
+            doc = doc.concat(txt);
+
+
+            doc = doc.concat("</tr></table></td></tr>");
+        }
+
+    }
+    doc = doc.concat("</table>");
+
+    document.getElementById("edt").innerHTML = doc;
+
+}
+
+    </script>
+
+    </body>
+
+
+</html>

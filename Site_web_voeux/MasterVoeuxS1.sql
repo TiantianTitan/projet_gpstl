@@ -246,6 +246,15 @@ CREATE TABLE IF NOT EXISTS `UEGroupes` (
   `effectif` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+-- ------------------------- Ajout --------------------------------------
+
+ CREATE TABLE IF NOT EXISTS csv_files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        csv_content TEXT NOT NULL,
+        uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ );
+
 --
 -- Index pour les tables exportées
 --

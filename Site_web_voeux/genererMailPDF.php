@@ -47,8 +47,33 @@ require_once('config.php'); // Acces Base de donnees
 //}
 
 //On ecrit la requete sql dans ListEtudiants : on enregistre l'etudiant
-$sql = "INSERT INTO ListeEtudiants(numero, nom, prenom, mail, spe, voeux) VALUES('" . $num . "', '" . $nom . "', '" . $prenom . "', '" . $mailetu . "', '" . $spe . "', 0)";
-mysql_query($sql) or die(mysql_error());
+// $sql = "INSERT INTO ListeEtudiants(numero, nom, prenom, mail, spe, voeux) VALUES('" . $num . "', '" . $nom . "', '" . $prenom . "', '" . $mailetu . "', '" . $spe . "', 0)";
+// ($sql) or die(mysql_error());
+
+// ------------------------------------------------------------ Nouveau Code ------------------------------------
+// Préparation de la requête SQL pour insérer l'étudiant
+$sql = "INSERT INTO ListeEtudiants (numero, nom, prenom, mail, spe, voeux) 
+        VALUES (:numero, :nom, :prenom, :mail, :spe, :voeux)";
+$stmt = $pdo-> prepare($sql);
+
+// Vérification que la préparation a réussi
+if ($stmt === false) {
+    die("Erreur de préparation de la requête : " . $pdo->errorInfo()[2]);
+}
+
+// Bind des paramètres
+$stmt->bindParam(':numero', $num, PDO::PARAM_INT);
+$stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+$stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+$stmt->bindParam(':mail', $mailetu, PDO::PARAM_STR);
+$stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+$stmt->bindParam(':voeux', $voeux, PDO::PARAM_INT);
+
+if ($stmt->execute()) {
+    echo "L'étudiant a été enregistré avec succès.";
+} else {
+    echo "Erreur lors de l'enregistrement : " . implode(", ", $stmt->errorInfo());
+}
 
 $ue = "";
 for ($i = 1; $i <= count($listeUE); $i++) {
@@ -64,25 +89,71 @@ for ($i = count($listeUE)+1; $i <=15 ; $i++) {
 
 //echo $ue; //Debug
 //Ici on mets a jour les champs UEi, UEigpe et voeux de la base dans ListEtudiants
-$sql = "UPDATE ListeEtudiants SET voeux=1, " . $ue . " WHERE numero='".$num."'";
-mysql_query($sql) or die(mysql_error());
+// $sql = "UPDATE ListeEtudiants SET voeux=1, " . $ue . " WHERE numero='".$num."'";
+// mysql_query($sql) or die(mysql_error());
 
-//On ecrit la requete sql dans la SPE, ce qui donne le rang d'enregistrement des voeux
-$sql = "INSERT INTO $spe(numetu) VALUES('".$num."')";
-mysql_query($sql) or die(mysql_error());
+// //On ecrit la requete sql dans la SPE, ce qui donne le rang d'enregistrement des voeux
+// $sql = "INSERT INTO $spe(numetu) VALUES('".$num."')";
+// mysql_query($sql) or die(mysql_error());
 
-//On recupere rang
-$sql = "SELECT * FROM $spe WHERE numetu='".$num."'";
-$requete = mysql_query($sql) or die(mysql_error());
-$rang = mysql_fetch_array($requete)['rang'];
+// //On recupere rang
+// $sql = "SELECT * FROM $spe WHERE numetu='".$num."'";
+// $requete = mysql_query($sql) or die(mysql_error());
+// $rang = mysql_fetch_array($requete)['rang'];
 
-$_SESSION['rang'] = $rang;
+// $_SESSION['rang'] = $rang;
 
-//On ecrit la requete sql dans Master, ce qui donne le rang d'enregistrement des voeux (au sein du master)
-$sql = "INSERT INTO Master(numetu) VALUES('".$num."')";
-mysql_query($sql) or die(mysql_error());
+// //On ecrit la requete sql dans Master, ce qui donne le rang d'enregistrement des voeux (au sein du master)
+// $sql = "INSERT INTO Master(numetu) VALUES('".$num."')";
+// mysql_query($sql) or die(mysql_error());
 
+// Commencer une transaction (pour assurer la cohérence des opérations)
 
+try {
+$pdo->beginTransaction();
+
+$sql = "UPDATE ListeEtudiants SET voeux = 1, " . $ue . " WHERE numero = :num";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Insérer l'étudiant dans la table de la spécialisation (par exemple: $spe)
+    $sql = "INSERT INTO $spe (numetu) VALUES (:num)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Récupérer le rang de l'étudiant dans la table de la spécialisation
+    $sql = "SELECT rang FROM $spe WHERE numetu = :num";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+        $rang = $result['rang'];
+        $_SESSION['rang'] = $rang; // Enregistrer le rang dans la session
+    } else {
+        throw new Exception("Le rang n'a pas pu être récupéré.");
+    }
+
+    // 4. Insérer l'étudiant dans la table `Master`
+    $sql = "INSERT INTO Master (numetu) VALUES (:num)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
+
+ // Commit des transactions si toutes les étapes sont réussies
+ $pdo->commit();
+} catch (PDOException $e) {
+    // Si une erreur survient, on annule la transaction et affiche l'erreur
+    $pdo->rollBack();
+    echo "Erreur : " . $e->getMessage();
+} catch (Exception $e) {
+    // Gestion des erreurs personnalisées
+    $pdo->rollBack();
+    echo "Erreur : " . $e->getMessage();
+};
 //S1
 	$CodeUE = array(
 	  "maths4m062" => "maths4m062",
@@ -150,10 +221,9 @@ mysql_query($sql) or die(mysql_error());
 	  'sftr' => 'MU4IN407'
 	);
 
-
+$pdo = null;
 //print_r($effectif); //Debug
 //Fermeture connexion base de donnees
-mysql_close();
 
 
 
@@ -253,7 +323,15 @@ Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
             <!-- Decommenter sur le seveur si connexion disponible
             <script src="http://code.jquery.com/jquery-latest.js"></script>
             Contenu duplique en local dans js/jquery-latest.js  -->
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+       <!-- --------------------------------------------- -->
+
+		 <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
 
 
 
@@ -277,7 +355,7 @@ Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
 
 	Merci d'avoir effectu&eacute; vos voeux. Vous allez recevoir la liste de vos souhaits d'UE dans un mail.
 	<br>
-	<i><span style='color:#0000FF'>Thank you for having expressed your wishes.</span></i>
+	<i><i><span style = color: #0000FF >Thank you for having expressed your wishes.</span></i></i>
 
       </div>
     </div>

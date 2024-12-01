@@ -30,12 +30,19 @@ if ($_SESSION['redouble'] == 'true') { //recuperation des ues validees par un re
 }
 $_SESSION['nb_suivi'] = $nb_suivi; //ajout du nombre d' ues suivies a l'environnement de session
 
-/* * GESTION EDT* */
-require_once('config.php'); //On aura besoin de config.php afin de se connecter a la base
-$reponse = mysql_query("SELECT * FROM UEGroupes");
-$groupes = []; //Tableau qui contiendra les paires (groupe_ue => effectif) Exemple ( groupe : algav1, effectif : 30 )
-while ($donnees = mysql_fetch_array($reponse))
-    $groupes[$donnees['groupe']] = $donnees['effectif'];
+// /* * GESTION EDT* */
+// require_once('config.php'); //On aura besoin de config.php afin de se connecter a la base
+// $reponse = mysql_query("SELECT * FROM UEGroupes");
+// $groupes = []; //Tableau qui contiendra les paires (groupe_ue => effectif) Exemple ( groupe : algav1, effectif : 30 )
+// while ($donnees = mysql_fetch_array($reponse))
+//     $groupes[$donnees['groupe']] = $donnees['effectif'];
+
+require_once('config.php');
+$reponse = $pdo->query("SELECT * FROM UEGroupes");
+$groupes = [];
+while ($donnees = $reponse->fetch(PDO::FETCH_ASSOC)) {
+	$groupes[$donnees['groupe']] = $donnees['effectif']; // Ajout du groupe et de l'effectif
+}
 
 ?>
 
@@ -64,7 +71,17 @@ while ($donnees = mysql_fetch_array($reponse))
             <!-- Decommenter sur le seveur si connexion disponible
             <script src="http://code.jquery.com/jquery-latest.js"></script>
             Contenu duplique en local dans js/jquery-latest.js  -->
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+			
+			  <!-- --------------------------------------------- -->
+
+			  <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+        <script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js">
+
+		 <!-- ------------------------------------------------------ -->
+
+
             <script type="text/javascript" src="js/utils.js"></script>
             <script type="text/javascript" src="js/choix_ues.js"></script>
             <script type="text/javascript">

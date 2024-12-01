@@ -11,7 +11,9 @@ session_start();
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="description" content="Inscriptions des etudiants au master informatique de Sorbonne Universit&eacute;">
             <meta name="keywords" content="EDT,Sorbonne Universit&eacute;,MASTER,INFO,CHOIX,UE">
-                <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+                <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+                <script src="js/jquery-migrate-3.4.1.min.js"></script>
         
         <link rel="stylesheet" href="css/maincss.css" type="text/css" />
 

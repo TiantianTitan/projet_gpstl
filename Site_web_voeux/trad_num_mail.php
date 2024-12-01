@@ -8,14 +8,20 @@ require_once('MSN.php');
 // Inclusion de la bibliothèque PHPMailer nécessaire pour la suite
 require('phpmailer/class.phpmailer.php');
 
+// $sql = "SELECT * FROM ListeEtudiants";
+// $requete = mysql_query($sql) or die(mysql_error());
+
+// $i = 0;
+// $j = 0;
+
 $sql = "SELECT * FROM ListeEtudiants";
-$requete = mysql_query($sql) or die(mysql_error());
+    $stmt = $pdo->query($sql); // Pas besoin de préparer si aucune donnée utilisateur n'est passée
 
-$i = 0;
-$j = 0;
+    $i = 0;
+    $j = 0;
 
-while($ligne = mysql_fetch_assoc($requete))
-{
+    // Parcourir les résultats
+    while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
 	$i = $i+1;
 	$num = $ligne['numero'];
 	$pb = 1;
@@ -109,7 +115,7 @@ Master Informatique de Sorbonne Université - Parcours ".$ligne['spe'];
 }
 
 //Fermeture connexion base de donnees
-mysql_close();
+$pdo=null;
 
 echo 'nb d enregistrements : '.$i.'    nb d envois mail : '.$j;
 
@@ -129,7 +135,15 @@ echo 'nb d enregistrements : '.$i.'    nb d envois mail : '.$j;
         <!-- Decommenter sur le seveur si connexion disponible
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         Contenu duplique en local dans js/jquery-latest.js  -->
-        <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+        <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+		<!-- --------------------------------------------- -->
+
+		<script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
        
         
         

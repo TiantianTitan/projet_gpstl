@@ -33,9 +33,19 @@ if ($_GET['num'] and $_GET['nom'] and $_GET['prenom'] and $_GET['mail']
         //Recuperation de l'etudiant par son numero s'il a deja termine son inscription
         $sql = "SELECT * FROM ListeEtudiants WHERE numero = '" . $_SESSION['num'] ."'";
 
-        //On verifie que les voeux n'aient pas deja ete faits
-        $requete = mysql_query($sql) or die(mysql_error());
-        if (mysql_num_rows($requete) > 0) {
+        // //On verifie que les voeux n'aient pas deja ete faits
+        // $requete = mysql_query($sql) or die(mysql_error());
+        // if (mysql_num_rows($requete) > 0) {
+            $stmt = $pdo->prepare($sql);
+
+            // Lier la valeur de la session
+            $stmt->bindParam(':numero', $_SESSION['num'], PDO::PARAM_INT);
+        
+            // Exécuter la requête
+            $stmt->execute();
+        
+            // Vérifier si des résultats existent
+            if ($stmt->rowCount() > 0) {
             //echo 'Vous avez d&eacute;j&agrave; enregistr&eacute; vos voeux.<br>Si vous recommencez, seuls les derniers voeux valid&eacute;s seront sauvegard&eacute;s.<br>';
             echo '<html><head><title>Redirection ..</title></head>' .
         '<body onload="timer = setTimeout(function(){ window.location =\'send_id.php\';},10000)">' .

@@ -5,7 +5,7 @@ $pass = 'root';      // Mot de passe pour MySQL
 $dbName = 'db_gpstl'; // Nom de la base de données
 
 // Le chemin du fichier SQL
-$sqlFile = 'Site_web_voeux/MasterVoeuxS1.sql'; // Remplacez par le chemin réel de votre fichier SQL
+$sqlFile = 'MasterVoeuxS1.sql'; // Remplacez par le chemin réel de votre fichier SQL
 
 try {
     // Connexion à MySQL sans spécifier de base de données pour créer celle-ci

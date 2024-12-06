@@ -46,6 +46,10 @@ require_once('config.php'); // Acces Base de donnees
     //exit();
 //}
 
+
+
+
+
 //On ecrit la requete sql dans ListEtudiants : on enregistre l'etudiant
 // $sql = "INSERT INTO ListeEtudiants(numero, nom, prenom, mail, spe, voeux) VALUES('" . $num . "', '" . $nom . "', '" . $prenom . "', '" . $mailetu . "', '" . $spe . "', 0)";
 // ($sql) or die(mysql_error());
@@ -154,6 +158,8 @@ $sql = "UPDATE ListeEtudiants SET voeux = 1, " . $ue . " WHERE numero = :num";
     $pdo->rollBack();
     echo "Erreur : " . $e->getMessage();
 };
+
+// A commenter et esssayer de tester pour voir si on a des bugs 
 //S1
 	$CodeUE = array(
 	  "maths4m062" => "maths4m062",

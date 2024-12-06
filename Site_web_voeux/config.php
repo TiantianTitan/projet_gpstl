@@ -12,6 +12,7 @@ try {
     $pdo = new PDO("mysql:host=$host", $user, $pass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    $pdo->exec("SET NAMES 'utf8';");
     // Créer la base de données si elle n'existe pas
     $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbName");
     echo "Base de données '$dbName' créée avec succès.<br>";

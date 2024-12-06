@@ -1,4 +1,4 @@
- <!--Page d'accueil : index.php-->
+ <!-- Page d'accueil : index.php -->
 <?php
 require_once ('semestre.php');
 //echo " & cur_sem : ".$_SESSION['SEMESTRE']."<br/>";

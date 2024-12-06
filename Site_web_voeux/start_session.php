@@ -31,17 +31,15 @@ if ($_GET['num'] and $_GET['nom'] and $_GET['prenom'] and $_GET['mail']
     } else {
         require_once('config.php'); // config.php est requis //connexion implicite a la base de donnees
         //Recuperation de l'etudiant par son numero s'il a deja termine son inscription
-        $sql = "SELECT * FROM ListeEtudiants WHERE numero = '" . $_SESSION['num'] ."'";
+        // $sql = "SELECT * FROM ListeEtudiants WHERE numero = '" . $_SESSION['num'] ."'";
 
         // //On verifie que les voeux n'aient pas deja ete faits
         // $requete = mysql_query($sql) or die(mysql_error());
         // if (mysql_num_rows($requete) > 0) {
+            $sql = "SELECT * FROM ListeEtudiants WHERE numero = :numero";
             $stmt = $pdo->prepare($sql);
-
-            // Lier la valeur de la session
             $stmt->bindParam(':numero', $_SESSION['num'], PDO::PARAM_INT);
         
-            // Exécuter la requête
             $stmt->execute();
         
             // Vérifier si des résultats existent

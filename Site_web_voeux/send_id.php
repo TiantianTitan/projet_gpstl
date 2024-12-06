@@ -13,7 +13,9 @@ function generate_id() {
     //generation id avec une fonction de hash( sans insertion dans la base ) basee sur le timestanp    
     $algos = hash_algos(); //recuperation du tableau d'algos de hachage
     //Ajout de l'id a la session : evite un acces base inutile
-    $_SESSION['ident'] = hash($algos[2], time()); //hash md5;
+    // $_SESSION['ident'] = hash($algos[2], time()); //hash md5;
+    $_SESSION['ident'] = 11111; //hash md5;
+
 }
 
 function send_mail_etu() {

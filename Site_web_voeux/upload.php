@@ -17,8 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     try {
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
         // Prépare l'insertion des données
         $stmt = $pdo->prepare("INSERT INTO csv_files (csv_content) VALUES (:csv_content)");
         $stmt->bindParam(':csv_content', $csvContent, PDO::PARAM_STR);

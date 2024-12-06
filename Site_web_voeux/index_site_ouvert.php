@@ -49,7 +49,16 @@ require_once ('semestre.php');
             <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h2><b>Voeux d'inscription aux UE du Master Informatique de Sorbonne Universit&eacute;.</b></h2>
+      <div id="language-selector" style="display: flex; align-items: center; gap: 5px;">        
+        <label for="language" style="margin-right: 10px;">🌍 Language:</label>
+        <select id="language" onchange="changeLanguage()">
+            <option value="fr" selected>🇫🇷 Français</option>
+            <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
+      </br>
+      <h1 class="text" data-translate-key="welcome"></h1>
+        <h2><b data-translate-key="voeux">Voeux d'inscription aux UE du Master Informatique de Sorbonne Universit&eacute;.</b></h2>
 
 <!--
         <p>Ce site permet de proposer ses voeux de choix d'UE pour le S1.
@@ -61,12 +70,12 @@ require_once ('semestre.php');
         <br/><br/>
  -->
  
-        <p>Ce site permet de proposer ses voeux de choix d'UE pour le S2.
+        <p data-translate-key="description">Ce site permet de proposer ses voeux de choix d'UE pour le S2.
         L'inscription effective aura lieu en janvier apr&egrave;s convocation par le secr&eacute;tariat du M1 Informatique.</p>
         <br/>
-         <h2><i><span style="color:#0000FF">Wishes for the courses</span></i></h2>
+         <!-- <h2><i><span style="color:#0000FF">Wishes for the courses</span></i></h2>
         <p><i><span style="color:#0000FF">Though this website you can express wishes for your lectures for the second semester.
-        But the registration will be effective only after a meeting with the administrative staff of the Master.</span></i></p>
+        But the registration will be effective only after a meeting with the administrative staff of the Master.</span></i></p> -->
         <br/><br/>
 
         <div id="div_formI" class="form-inline" role="form" style="width:100%;">
@@ -79,12 +88,16 @@ require_once ('semestre.php');
 
 
 
-                <legend><b>Informations sur l'&eacute;tudiant</b> <i><span style="color:#0000FF">Student's information</span></i></legend>
+                <legend><b data-translate-key="info">Informations sur l'&eacute;tudiant</b> 
+                        <!-- <i><span style="color:#0000FF">Student's information</span></i> -->
+                </legend>
 
 
             <div style="display:inline-block;float:left;width:54%;">
                     <div class="form-group">
-                    <label>Num&eacute;ro de dossier : <i><span style="color:#0000FF">Student's number</span></i></label>
+                    <label data-translate-key="numetu">Num&eacute;ro de dossier : 
+                      <!-- <i><span style="color:#0000FF">Student's number</span></i> -->
+                    </label>
                     <?php
                     if (isset($_GET['num']))
 
@@ -100,13 +113,16 @@ require_once ('semestre.php');
                         echo "<input pattern='{7,}' class='field' id='num' type='text' name='numetu'/>";
                     ?>
                     <div class="con_error" id="con_error_num"></div> <!--Sert a l'affichage des messages d'erreur-->
-                    <span class="note" id="noteN">Si le num&eacute;ro n'est pas connu, les donn&eacute;es ne seront pas enregistr&eacute;es.
-                    <i><span style="color:#0000FF">If the number is not known by the administration, the wishes will not be stored.</span></i></span>
+                    <span class="note" id="noteN" data-translate-key="numetu_info">Si le num&eacute;ro n'est pas connu, les donn&eacute;es ne seront pas enregistr&eacute;es.
+                    <!-- <i><span style="color:#0000FF">If the number is not known by the administration, the wishes will not be stored.</span></i> -->
+                    </span>
 
 
                     <br/> <br/>
 
-                    <label>Confirmation du num&eacute;ro de dossier : <i><span style="color:#0000FF">Confirmation of the student's number</span></i></label>
+                    <label data-translate-key="numetu2">Confirmation du num&eacute;ro de dossier : 
+                      <!-- <i><span style="color:#0000FF">Confirmation of the student's number</span></i> -->
+                    </label>
                     <?php
                     if (isset($_GET['num']))
                         //echo "<input value='" . $_GET['num'] . "' pattern='(2|3)\d{6,}' class='field' id='num2' type='text' name='numetu2'/>";
@@ -124,7 +140,9 @@ require_once ('semestre.php');
 
 
 
-                    <label>Nom : <i><span style="color:#0000FF">Name</span></i></label>
+                    <label data-translate-key="nom">Nom : 
+                      <!-- <i><span style="color:#0000FF">Name</span></i> -->
+                    </label>
                     <?php
                     if (isset($_GET['nom']))
                         echo "<input value='" . $_GET['nom'] . "' class='field' id='nom' type='text' name='nometu'/>";
@@ -135,7 +153,9 @@ require_once ('semestre.php');
                     <br/>
 
 
-                    <label>Pr&eacute;nom : <i><span style="color:#0000FF">First name</span></i></label>
+                    <label data-translate-key="prenom">Pr&eacute;nom : 
+                      <!-- <i><span style="color:#0000FF">First name</span></i> -->
+                    </label>
                     <?php
                     if (isset($_GET['prenom']))
                         echo "<input value='" . $_GET['prenom'] . "' class='field' id='prenom' type='text' name='prenometu'/>";
@@ -146,7 +166,9 @@ require_once ('semestre.php');
                     <br/>
 
 
-                    <label>Adresse email : <i><span style="color:#0000FF">Email address</span></i></label>
+                    <label data-translate-key="email">Adresse email : 
+                      <!-- <i><span style="color:#0000FF">Email address</span></i> -->
+                    </label>
                     <?php
                     if (isset($_GET['mail']))
                         echo "<input value='" . $_GET['mail'] . "' class='field' type='email' id='email' name='email'/>";
@@ -165,7 +187,9 @@ require_once ('semestre.php');
             <div style="display:inline-block;float:right;width: 45%;">
 
 
-            		<label>Parcours : <i><span style="color:#0000FF">Speciality</span></i></label>
+            		<label data-translate-key="parcours">Parcours : 
+                  <!-- <i><span style="color:#0000FF">Speciality</span></i> -->
+                </label>
                     <select class="selectop" id="spe" name="spe">
                         <option value='ANDROIDE' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == '---'){} ?> >---</option>
                         <option value='ANDROIDE' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'ANDROIDE'){echo "selected='selected'";} ?> >ANDROIDE</option>
@@ -183,21 +207,22 @@ require_once ('semestre.php');
                     <br/><br/><br/>
 
 
-                    <b>&Ecirc;tes-vous redoublant du master Informatique de Sorbonne Universit&eacute; ?</b>
-                    <i><span style="color:#0000FF">Are you repeating the first year of the computer science master ? </span></i><br/>
+                    <b data-translate-key="redouble">&Ecirc;tes-vous redoublant du master Informatique de Sorbonne Universit&eacute; ?</b>
+                    <!-- <i><span style="color:#0000FF">Are you repeating the first year of the computer science master ? </span></i> -->
+                    <br/>
                     <?php
                     if (isset( $_GET['redouble'] ) and $_GET['redouble'] == 'true')
                         echo "<input class='radio' id='r1' type='radio' name='redoublant' value='non'/>".
-                        "<span class='opt' id='optR1'> <b> Non</b></span>".
+                        "<span class='opt' id='optR1'> <b data-translate-key='non'> Non</b></span>".
                         "<br>".
                         "<input class='radio' id='r2' type='radio' name='redoublant' value='oui' checked='checked' />".
-                        "<span class='opt' id='optR2'><b> Oui</b></span>";
+                        "<span class='opt' id='optR2'><b data-translate-key='oui'> Oui</b></span>";
                     else
                         echo "<input class='radio' id='r1' type='radio' name='redoublant' value='non'  checked='checked'/>".
-                        "<span class='opt' id='optR1'> <b> Non</b> </span>".
+                        "<span class='opt' id='optR1'> <b data-translate-key='non'> Non</b> </span>".
                         "<br>".
                         "<input class='radio' id='r2' type='radio' name='redoublant' value='oui' />".
-                        "<span class='opt' id='optR2'> <b> Oui</b></span>";
+                        "<span class='opt' id='optR2'> <b data-translate-key='oui'> Oui</b></span>";
                     ?>
                     <br/><br/><br/>
 
@@ -231,9 +256,11 @@ require_once ('semestre.php');
 
 
                 <div id="div_buttons">
-                    <input class="btn btn-lg btn-primary" id="b0" type="submit" name="submit" value="Connexion"/>
-                    <span class="note" id="noteF"><font color="red"><b><i>Tous les champs sont obligatoires.</i><i><span style="color:#0000FF">All
-                    fileds must be filled.</span></i></b></font></span>
+                    <input data-translate-key="connex" class="btn btn-lg btn-primary" id="b0" type="submit" name="submit" value="Connexion"/>
+                    <span class="note" id="noteF"><font color="red"><b><i data-translate-key="champs" >Tous les champs sont obligatoires.</i>
+                    <!-- <i><span style="color:#0000FF">Allfileds must be filled.</span></i> -->
+                    </b>
+                  </font></span>
                 </div>
             </div>
 

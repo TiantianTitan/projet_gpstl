@@ -10,21 +10,59 @@ $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
 
 
+// $listeUE = [];
+// $nboblig = 0;
+// for ($i=1; $i<6; $i++)
+// {
+// 	if(isset($_GET['UEoblig'.$i]))
+// 	{
+// 		$nboblig = $nboblig +1;
+//         array_push($listeUE, $_GET['UEoblig'.$i]);
+//      }
+// }
+// for ($i=1; $i<15; $i++)
+// {
+// 	if(isset($_GET['UEsup'.$i]))
+//         array_push($listeUE, $_GET['UEsup'.$i]);
+// }
+// ------------------------------------------------------------ Nouveau Code ------------------------------------
+
 $listeUE = [];
 $nboblig = 0;
-for ($i=1; $i<6; $i++)
-{
-	if(isset($_GET['UEoblig'.$i]))
-	{
-		$nboblig = $nboblig +1;
-        array_push($listeUE, $_GET['UEoblig'.$i]);
-     }
+$messageErreur = "";
+
+// Récupération des UE obligatoires
+for ($i = 1; $i < 6; $i++) {
+    if (isset($_GET['UEoblig' . $i])) {
+        $nboblig++;
+        array_push($listeUE, $_GET['UEoblig' . $i]);
+    }
 }
-for ($i=1; $i<15; $i++)
-{
-	if(isset($_GET['UEsup'.$i]))
-        array_push($listeUE, $_GET['UEsup'.$i]);
+
+// Récupération des UE supplémentaires avec vérification
+for ($i = 1; $i < 15; $i++) {
+    if (isset($_GET['UEsup' . $i])) {
+        if ($_GET['UEsup' . $i] === '--- Choisissez une UE---') {
+            $messageErreur = "Erreur : Une ou plusieurs UE supplémentaires n'ont pas été sélectionnées.";
+            break;
+        }
+        array_push($listeUE, $_GET['UEsup' . $i]);
+    }
 }
+
+// // Affichage d'un message d'erreur si nécessaire
+// if ($messageErreur) {
+//     echo "<p style='color: red;'>$messageErreur</p>";
+// } else {
+//     // Traitement des données si tout est correct
+//     // Exemple : afficher les UE sélectionnées
+//     echo "<p>UE sélectionnées :</p>";
+//     echo "<ul>";
+//     foreach ($listeUE as $ue) {
+//         echo "<li>" . htmlspecialchars($ue) . "</li>";
+//     }
+//     echo "</ul>";
+// }
 
 
 
@@ -47,8 +85,8 @@ require_once('config.php'); // Acces Base de donnees
 //}
 
 
-
-
+// debug print choix
+print_r($choix); 
 
 //On ecrit la requete sql dans ListEtudiants : on enregistre l'etudiant
 // $sql = "INSERT INTO ListeEtudiants(numero, nom, prenom, mail, spe, voeux) VALUES('" . $num . "', '" . $nom . "', '" . $prenom . "', '" . $mailetu . "', '" . $spe . "', 0)";

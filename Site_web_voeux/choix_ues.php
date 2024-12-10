@@ -126,8 +126,16 @@ while ($donnees = mysql_fetch_array($reponse))
             <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h2><b>Choix des UE</b></h2>
-        <h2><i><span style="color:#0000FF">Lectures' wishes</span></i></h2>
+        <div id="language-selector" style="display: flex; align-items: center; gap: 5px;">        
+			<label for="language" style="margin-right: 10px;">🌍 Language:</label>
+			<select id="language" onchange="changeLanguage()">
+				<option value="fr" selected>🇫🇷 Français</option>
+				<option value="en">🇬🇧 English</option>
+			</select>
+		</div>
+		</br>
+        <h2><b data-translate-key="titre">Choix des UE</b></h2>
+        <!-- <h2><i><span style="color:#0000FF">Lectures' wishes</span></i></h2> -->
 
         <span class="note" id="description_master"> </span>
 
@@ -154,10 +162,10 @@ while ($donnees = mysql_fetch_array($reponse))
 												if($spe != 'IMA' or $semestre==1)
 												{
 	                        switch($cpt)
-	                        {
-	                            case 1 : echo "<b>UE obligatoires : <i><span style='color:#0000FF'>Mandatory lectures</span></i></b>"; break;
-	                            case 2 : echo "<b>UE recommand&eacutes par le parcours : <i><span style='color:#0000FF'>Recommended lectures</span></i></b>"; break;
-	                            case 3 : echo "<b>autres UE propos&eacutees par le master : <i><span style='color:#0000FF'>Other possible lectures</span></i></b>"; break;
+	                        {	
+	                            case 1 : echo "<b data-translate-key='obl'>UE obligatoires : </b>"; break;
+	                            case 2 : echo "<b data-translate-key='recom'>UE recommand&eacutes par le parcours : </b>"; break;
+	                            case 3 : echo "<b data-translate-key='autre'>autres UE propos&eacutees par le master : </b>"; break;
 	                            default : echo "<b>Should not occur !</b>"; break;
 	                        }
 												}

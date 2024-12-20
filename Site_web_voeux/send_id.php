@@ -13,7 +13,7 @@ if (empty($_SESSION['mail']) || !filter_var($_SESSION['mail'], FILTER_VALIDATE_E
 if (empty($_SESSION['prenom'])) {
     die("Le prénom de l'utilisateur est non défini.");
 }
-
+    
 // Fonction pour générer un identifiant unique
 function generate_id() {
     //generation id avec une fonction de hash( sans insertion dans la base ) basee sur le timestanp    

@@ -15,7 +15,6 @@ try {
     $pdo->exec("SET NAMES 'utf8';");
     // Créer la base de données si elle n'existe pas
     $pdo->exec("CREATE DATABASE IF NOT EXISTS $dbName");
-    echo "Base de données '$dbName' créée avec succès.<br>";
 
     // Connexion à la base de données nouvellement créée
     $pdo->exec("USE $dbName");
@@ -30,7 +29,6 @@ try {
 
     // Exécuter les requêtes SQL contenues dans le fichier
     $pdo->exec($sqlContent);
-    echo "Les requêtes SQL ont été exécutées avec succès.<br>";
 
 } catch (PDOException $e) {
     echo "Erreur : " . $e->getMessage();

@@ -63,7 +63,7 @@ affichage_edt.php?UE1=LRC&GR1=1&UE2=MOGPL&GR2=2
             SEMNUM =<?php echo $SEMESTRE; ?>;
 //            alert("SEMNUM : "+JSON.stringify(SEMNUM));
         </script>
-        <script type="text/javascript" src="js/calendrier.js"></script>  <!--// là où est stocké l'EDT-->
+        <script type="text/javascript" src="js/calendrier_ameliorer.js"></script>  <!--// là où est stocké l'EDT-->
         <script type="text/javascript" src="js/edt_print.js"></script> <!--//composant d'affichage des edt (reutilisable)-->
         <script type ="text/javascript">
             function show_edt() {

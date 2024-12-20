@@ -2,9 +2,14 @@
 header('Content-Type: application/json');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-require_once('config.php');  // Inclure la connexion à la base de données
+require('config.php');
 
 try {
+    // Connexion à la base de données SQLite
+    // $dbFile = 'calendar_data.db'; // Nom de la base de données SQLite
+    // $pdo = new PDO('sqlite:' . $dbFile);
+    // $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
     // Récupérer le dernier fichier CSV stocké
     $query = $pdo->prepare('SELECT csv_content FROM csv_files ORDER BY uploaded_at DESC LIMIT 1');
     $query->execute();
@@ -15,9 +20,6 @@ try {
         exit;
     }
 
-    // Ajout pour le débogage
-    echo json_encode(["debug" => true, "result" => $result]);
-    exit; // Sortir pour éviter d'exécuter le reste du script pendant le débogage
 
     $csvContent = $result['csv_content'];
 

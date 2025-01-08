@@ -17,8 +17,8 @@ if ($_GET['num'] and $_GET['nom'] and $_GET['prenom'] and $_GET['mail']
     $_SESSION['magister'] = $_GET['magister'];
     $_SESSION['nbue'] = $_GET['nbue'];
     $_SESSION['code'] = 0;
-
-
+    // print 
+    echo 'session['.$_SESSION['num'].','.$_SESSION['nom'].','.$_SESSION['prenom'].','.$_SESSION['mail'].','.$_SESSION['spe'] .','.$_SESSION['redouble'] .','. $_SESSION['magister'].','. $_SESSION['nbue'].']'.'<br/>';
     if (!filter_var($_SESSION['mail'], FILTER_VALIDATE_EMAIL)) {
         $msg = "<b>" . $_SESSION['mail'] . " </b> est une adresse mail est invalide.";
         $url = "index.php?num=" . $_SESSION['num'] . "&num2=" . $_SESSION['num'] .

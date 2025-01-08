@@ -886,3 +886,42 @@ function ChoixS2(parcours, form, index)
 		if (res)
 		{	 document.getElementById("Valider").type = "submit"; }
 }
+
+const translations = {
+	fr: {
+		titre: "Choix des UE",
+		obl: "UE obligatoires :",
+		recom: "UE recommandés par le parcours :",
+		autre: "Autres UE proposées par le master :",
+	},
+	en: {
+		titre: "Lectures' wishes",
+		obl: "Mandatory lectures :",
+		recom: "Recommended lectures :",
+		autre: "Other possible lectures :",
+	}
+}
+
+// Change la langue et met à jour les textes
+function changeLanguage() {
+	const selectedLanguage = document.getElementById("language").value;
+  
+	// Parcours les éléments traduisibles
+	document.querySelectorAll("[data-translate-key]").forEach((element) => {
+	  const key = element.getAttribute("data-translate-key");
+	  const translation = translations[selectedLanguage][key];
+  
+	  if (translation) {
+		element.textContent = translation;
+	  }
+  
+	  // Applique une classe pour styliser le texte
+	  element.classList.remove("fr", "en");
+	  element.classList.add(selectedLanguage);
+	});
+  }
+  
+  // Initialisation par défaut (Français)
+  window.onload = () => {
+	changeLanguage();
+  };

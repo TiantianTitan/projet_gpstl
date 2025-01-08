@@ -144,6 +144,7 @@ require_once('config.php');
     <div class="jumbotron">
       <div class="container">
 		<div id="language-selector" style="display: flex; align-items: center; gap: 5px;">        
+        <div id="language-selector" style="display: flex; align-items: center; gap: 5px;">     
 			<label for="language" style="margin-right: 10px;">🌍 Language:</label>
 			<select id="language" onchange="changeLanguage()">
 				<option value="fr" selected>🇫🇷 Français</option>

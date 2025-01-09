@@ -13,10 +13,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ANDROIDE`
+-- Structure de la table `AI2D`
 --
 
-CREATE TABLE IF NOT EXISTS `ANDROIDE` (
+CREATE TABLE IF NOT EXISTS `AI2D` (
   `numetu` VARCHAR(255) NOT NULL,
   `rang` INT(11) NOT NULL AUTO_INCREMENT,
   `rang_rouge` INT(11) NOT NULL,
@@ -49,10 +49,10 @@ CREATE TABLE IF NOT EXISTS `BIM` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `DAC`
+-- Structure de la table `MIND`
 --
 
-CREATE TABLE IF NOT EXISTS `DAC` (
+CREATE TABLE IF NOT EXISTS `MIND` (
   `numetu` VARCHAR(255) NOT NULL,
   `rang` INT(11) NOT NULL AUTO_INCREMENT,
   `rang_rouge` INT(11) NOT NULL,

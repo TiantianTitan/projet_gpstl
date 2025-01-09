@@ -44,9 +44,9 @@ session_start();
     <div style="display:inline-block;float:left;width:50%;">
 
     <fieldset>
-     <legend><b>Parcours ANDROIDE</b></legend>
+     <legend><b>Parcours AI2D</b></legend>
      <font size="4"><b>Secr&eacute;taire : </b>Magalie Dupray</font><br/>
-     <font size="4"><b>Courriel : </b>sciences-master-info-androide@sorbonne-universite.fr</font><br/>
+     <font size="4"><b>Courriel : </b>sciences-master-info-ai2d@sorbonne-universite.fr</font><br/>
     </fieldset>
     <br/><br/>
 
@@ -65,9 +65,9 @@ session_start();
     <br/><br/>
 
     <fieldset>
-     <legend><b>Parcours DAC</b></legend>
+     <legend><b>Parcours MIND</b></legend>
      <font size="4"><b>Secr&eacute;taire : </b>G&eacute;raldine Bompard</font><br/>
-     <font size="4"><b>Courriel : </b>sciences-master-info-dac@sorbonne-universite.fr</font><br/>
+     <font size="4"><b>Courriel : </b>sciences-master-info-mind@sorbonne-universite.fr</font><br/>
     </fieldset>
     <br/><br/>
 

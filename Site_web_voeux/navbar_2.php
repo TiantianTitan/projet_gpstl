@@ -16,10 +16,10 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Parcours<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-androide">ANDROIDE</a></li>
+                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-AI2D">ANDROIDE</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-bim">BIM</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-cca">CCA</a></li>
-                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-dac">DAC</a></li>
+                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-MIND">MIND</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-ima">IMA</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-IQ">IQ</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-res">RES</a></li>

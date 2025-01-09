@@ -87,6 +87,7 @@ print_r($liste_ues);
                     sort($liste_ues); //ordre alphabetique sur la liste d'ues
                     foreach ($liste_ues as $value) {
                     	if ($value == 'Anglais'){
+                            // changer nom ues ? 
                     		$ch = 'Anglais AND_IMA_BIM_DAC_IQ';
                     	}
                     	else {

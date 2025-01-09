@@ -20,7 +20,7 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Mars->Octobre (S1) //ask ge
 
     //Definition des contraintes sur  les ues du semestre pour chaque parcours
     $_SESSION['MASTER'] = array(
-  "ANDROIDE" => array(
+  "AI2D" => array(
 		"oblig" => array("lrc", "mogpl"),
 		"recom" => array("mapsi", "complex"),
 		"libre" => array("mlbda", "bima_en", "bima", "aagb", "model","model_en", "pscr", "signal", "algav", "dlp", "qclg_qk4cs_en") //"il",
@@ -35,7 +35,7 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Mars->Octobre (S1) //ask ge
 		"recom" => array("ares", "archi", "noyau", "ppar_en", "qclg_qk4cs_en"),
 		"libre" => array("mlbda", "mogpl", "mapsi", "pscr")
 	),
-	"DAC" => array(
+	"MIND" => array(
 		"oblig" => array("mlbda", "lrc", "mapsi"),
 		"recom" => array(),
 		"libre" => array("bima_en", "bima", "complex", "model", "model_en", "mogpl", "aagb", "signal") //"il",
@@ -80,7 +80,7 @@ else if ($month >=11 && $month <= 12 || $month >=1 && $month <= 2 ) {
       'rital','rp','sam','sas','sbas','sdm','srcs','sftr');
 
     $_SESSION['MASTER'] = array(
-        'ANDROIDE' => array(													//  OK
+        'AI2D' => array(													//  OK
             'oblig' => array('Conferences', 'Projet(3)', 'Anglais'),
             'recom' => array('arob', 'dj', 'ihm', 'rp', 'fosyma'),
             'libre' => array('ml', 'iamsi')
@@ -95,7 +95,7 @@ else if ($month >=11 && $month <= 12 || $month >=1 && $month <= 2 ) {
             'recom' => array('flag', 'isec'),
             'libre' => array('ml', 'ar', 'fpga', 'multi_en') // 'ar' remplace 'pnl'
             ),
-        'DAC' => array(                     // OK
+        'MIND' => array(                     // OK
             'oblig' => array('Conferences', 'Projet(3)', 'Anglais'),
             'recom' => array('dalas', 'sam', 'iamsi', 'ml', 'rital'),
             'libre' => array('dj','arob','rp')

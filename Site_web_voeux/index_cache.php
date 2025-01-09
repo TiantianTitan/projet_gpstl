@@ -158,10 +158,10 @@ require_once ('semestre_cache.php');
 
             		<label>Parcours :</label>
                     <select class="selectop" id="spe" name="spe">
-                        <option value='ANDROIDE' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'ANDROIDE'){echo "selected='selected'";} ?> >ANDROIDE</option>
+                        <option value='AI2D' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'AI2D'){echo "selected='selected'";} ?> >AI2D</option>
                         <option value='BIM' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'BIM') {echo "selected='selected'";} ?> >BIM</option>
                         <option value='CCA'<?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'CCA'){echo "selected='selected'";} ?> >CCA</option>
-                        <option value='DAC' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'DAC') {echo "selected='selected'";} ?> >DAC</option>
+                        <option value='MIND' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'MIND') {echo "selected='selected'";} ?> >MIND</option>
                         <option value='IMA' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'IMA') {echo "selected='selected'";} ?> >IMA</option>
                         <option value='RES' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'RES') {echo "selected='selected'";} ?> >RES</option>
                         <option value='SAR' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'SAR') {echo "selected='selected'";} ?> >SAR</option>

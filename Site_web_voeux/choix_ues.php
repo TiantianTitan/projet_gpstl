@@ -143,7 +143,6 @@ require_once('config.php');
             <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-		<div id="language-selector" style="display: flex; align-items: center; gap: 5px;">        
         <div id="language-selector" style="display: flex; align-items: center; gap: 5px;">     
 			<label for="language" style="margin-right: 10px;">🌍 Language:</label>
 			<select id="language" onchange="changeLanguage()">
@@ -191,9 +190,9 @@ require_once('config.php');
 												{
 													switch($cpt)
 	                        {
-	                            case 1 : echo "<b>UE obligatoires : </b>"; break;
-	                            case 2 : echo "<b>Choisir 1 UE, &agrave; 3ECTS, obligatoire parmi : </b>"; break;
-	                            case 3 : echo "<b>Choisir 2 UE, &agrave; 6ECTS parmi :</b>"; break;
+	                            case 1 : echo "<b data-translate-key='obl'>UE obligatoires : </b>"; break;
+	                            case 2 : echo "<b data-translate-key='recom'>Choisir 1 UE, &agrave; 3ECTS, obligatoire parmi : </b>"; break;
+	                            case 3 : echo "<b data-translate-key='autre'>Choisir 2 UE, &agrave; 6ECTS parmi :</b>"; break;
 	                            default : echo "<b>Should not occur !</b>"; break;
 	                        }
 												}

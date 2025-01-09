@@ -21,32 +21,23 @@ for ($i=1; $i<6; $i++)
         array_push($listeUE, $_GET['UEoblig'.$i]);
      }
 }
-for ($i=1; $i<15; $i++)
-{
-	if(isset($_GET['UEsup'.$i]))
-        array_push($listeUE, $_GET['UEsup'.$i]);
+// Récupération des UE supplémentaires avec vérification
+for ($i = 1; $i < 15; $i++) {
+    if (isset($_GET['UEsup' . $i])) {
+        if ($_GET['UEsup' . $i] === '--- Choisissez une UE---') {
+            $messageErreur = "Erreur : Une ou plusieurs UE supplémentaires n'ont pas été sélectionnées.";
+            break;
+        }
+        array_push($listeUE, $_GET['UEsup' . $i]);
+    }
 }
-print_r($listeUE); //Debug
+
 
 
    /***** Ecriture en BDD *****/
 
 
 require_once('config.php'); // Acces Base de donnees
-//On verifie que les voeux n'aient pas deja ete faits
-//$sql = "SELECT * FROM ListeEtudiants WHERE numero='" . $_SESSION['num'] . "' AND voeux=1";
-//$requete = mysql_query($sql) or die(mysql_error());
-//if (mysql_num_rows($requete) > 0) {
-    //echo "<div id ='enddiv'>"
-        //. "<p id='endp'>"
-                //. "<span id='endspan'>Vous avez d&eacute;j&agrave; enregistr&eacute; vox voeux.<br>"
-                //. "</span> <br>";
-        //echo "<a href='https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique'>Retour sur le site du master informatique de Sorbonne Universit&eacute;</a> "
-        //. "</p>"
-    //. "</div>";
-    //exit();
-//}
-
 
 // ------------------------------------------------------------ Nouveau Code ------------------------------------
 
@@ -62,25 +53,6 @@ for ($i = count($listeUE)+1; $i <=15 ; $i++) {
         $ue .= ", ";
 }
 
-//echo $ue; //Debug
-//Ici on mets a jour les champs UEi, UEigpe et voeux de la base dans ListEtudiants
-// $sql = "UPDATE ListeEtudiants SET voeux=1, " . $ue . " WHERE numero='".$num."'";
-// mysql_query($sql) or die(mysql_error());
-
-// //On ecrit la requete sql dans la SPE, ce qui donne le rang d'enregistrement des voeux
-// $sql = "INSERT INTO $spe(numetu) VALUES('".$num."')";
-// mysql_query($sql) or die(mysql_error());
-
-// //On recupere rang
-// $sql = "SELECT * FROM $spe WHERE numetu='".$num."'";
-// $requete = mysql_query($sql) or die(mysql_error());
-// $rang = mysql_fetch_array($requete)['rang'];
-
-// $_SESSION['rang'] = $rang;
-
-// //On ecrit la requete sql dans Master, ce qui donne le rang d'enregistrement des voeux (au sein du master)
-// $sql = "INSERT INTO Master(numetu) VALUES('".$num."')";
-// mysql_query($sql) or die(mysql_error());
 
 // Commencer une transaction (pour assurer la cohérence des opérations)
 try {
@@ -240,6 +212,7 @@ $pdo = null;
 
 
 /***** Envoi de mail *****/
+// ASSEZ LENT...
 // Inclusion du fichier PHP contenant les adresses mail des secrétariats
 $smtp_configs = require 'MSN.php';
 

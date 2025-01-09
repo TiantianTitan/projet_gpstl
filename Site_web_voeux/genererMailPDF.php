@@ -8,7 +8,7 @@ $mailetu = $_SESSION['mail'];
 $spe = $_SESSION['spe'];
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
-$voeux = 0;
+$voeux = 1;
 
 
 $listeUE = [];
@@ -48,37 +48,7 @@ require_once('config.php'); // Acces Base de donnees
 //}
 
 
-
-
-
-//On ecrit la requete sql dans ListEtudiants : on enregistre l'etudiant
-// $sql = "INSERT INTO ListeEtudiants(numero, nom, prenom, mail, spe, voeux) VALUES('" . $num . "', '" . $nom . "', '" . $prenom . "', '" . $mailetu . "', '" . $spe . "', 0)";
-// ($sql) or die(mysql_error());
-
 // ------------------------------------------------------------ Nouveau Code ------------------------------------
-// Préparation de la requête SQL pour insérer l'étudiant
-$sql = "INSERT INTO ListeEtudiants (numero, nom, prenom, mail, spe, voeux) 
-        VALUES (:numero, :nom, :prenom, :mail, :spe, :voeux)";
-$stmt = $pdo-> prepare($sql);
-
-// Vérification que la préparation a réussi
-if ($stmt === false) {
-    die("Erreur de préparation de la requête : " . $pdo->errorInfo()[2]);
-}
-
-// Bind des paramètres
-$stmt->bindParam(':numero', $num, PDO::PARAM_INT);
-$stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
-$stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-$stmt->bindParam(':mail', $mailetu, PDO::PARAM_STR);
-$stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
-$stmt->bindParam(':voeux', $voeux, PDO::PARAM_INT);
-
-if ($stmt->execute()) {
-    echo "L'étudiant a été enregistré avec succès.";
-} else {
-    echo "Erreur lors de l'enregistrement : " . implode(", ", $stmt->errorInfo());
-}
 
 $ue = "";
 for ($i = 1; $i <= count($listeUE); $i++) {
@@ -113,14 +83,8 @@ for ($i = count($listeUE)+1; $i <=15 ; $i++) {
 // mysql_query($sql) or die(mysql_error());
 
 // Commencer une transaction (pour assurer la cohérence des opérations)
-
 try {
-$pdo->beginTransaction();
-
-$sql = "UPDATE ListeEtudiants SET voeux = 1, " . $ue . " WHERE numero = :num";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
-    $stmt->execute();
+    $pdo->beginTransaction();
 
     // Insérer l'étudiant dans la table de la spécialisation (par exemple: $spe)
     $sql = "INSERT INTO $spe (numetu) VALUES (:num)";
@@ -142,14 +106,55 @@ $sql = "UPDATE ListeEtudiants SET voeux = 1, " . $ue . " WHERE numero = :num";
         throw new Exception("Le rang n'a pas pu être récupéré.");
     }
 
-    // 4. Insérer l'étudiant dans la table `Master`
-    $sql = "INSERT INTO ListeEtudiants (numero) VALUES (:num)";
+    // Insérer l'étudiant dans la table `ListeEtudiants` si ce n'est pas encore fait
+    $sql = "INSERT INTO ListeEtudiants (numero, nom, prenom, mail, spe, voeux) 
+            VALUES (:numero, :nom, :prenom, :mail, :spe, :voeux)
+            ON DUPLICATE KEY UPDATE nom = :nom, prenom = :prenom, mail = :mail, spe = :spe, voeux = :voeux";
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
-    $stmt->execute();
 
- // Commit des transactions si toutes les étapes sont réussies
- $pdo->commit();
+    $stmt->bindParam(':numero', $num, PDO::PARAM_INT);
+    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+    $stmt->bindParam(':mail', $mailetu, PDO::PARAM_STR);
+    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+    $stmt->bindParam(':voeux', $voeux, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo "L'étudiant a été enregistré avec succès.";
+    } else {
+        throw new Exception("Erreur lors de l'enregistrement de l'étudiant.");
+    }
+
+    // Construire et exécuter la requête UPDATE pour les UE
+    $sql = "UPDATE ListeEtudiants SET ";
+    for ($i = 1; $i <= 15; $i++) {
+        $sql .= "ue$i = :ue$i";
+        if ($i < 15) {
+            $sql .= ", ";
+        }
+    }
+    $sql .= " WHERE numero = :num";
+
+    $stmt = $pdo->prepare($sql);
+
+    // Lier les valeurs des UE
+    for ($i = 1; $i <= count($listeUE); $i++) {
+        $stmt->bindValue(":ue$i", strtolower($listeUE[$i - 1]), PDO::PARAM_STR);
+    }
+    for ($i = count($listeUE) + 1; $i <= 15; $i++) {
+        $stmt->bindValue(":ue$i", "", PDO::PARAM_STR);
+    }
+
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo "Les UE ont été mises à jour avec succès.";
+    } else {
+        throw new Exception("Erreur lors de la mise à jour des UE.");
+    }
+
+    // Commit des transactions si toutes les étapes sont réussies
+    $pdo->commit();
 } catch (PDOException $e) {
     // Si une erreur survient, on annule la transaction et affiche l'erreur
     $pdo->rollBack();
@@ -158,7 +163,8 @@ $sql = "UPDATE ListeEtudiants SET voeux = 1, " . $ue . " WHERE numero = :num";
     // Gestion des erreurs personnalisées
     $pdo->rollBack();
     echo "Erreur : " . $e->getMessage();
-};
+}
+
 
 // A commenter et esssayer de tester pour voir si on a des bugs 
 //S1
@@ -246,13 +252,13 @@ $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
 $pdf->Image('SU_logo.jpg', 10, 6, 30);
 $pdf->Ln(20);
-$pdf->Cell(0, 10, "MASTER $spe - Annee " . date('Y') . '/' . (date('Y') + 1), 0, 1, 'C');
+$pdf->Cell(0, 10, "MASTER $spe - Ann\xe9e " . date('Y') . '/' . (date('Y') + 1), 0, 1, 'C');
 $pdf->SetFont('Arial', '', 12);
 $pdf->Ln(10);
 $pdf->Cell(0, 10, "Voeux M1-S". $_SESSION['SEMESTRE']." " , 0, 1, 'C');
 $pdf->Ln(10);
 $pdf->SetFont('Arial', '', 12);
-$pdf->Cell(0, 10, "N° Etudiant : $num", 0, 1);
+$pdf->Cell(0, 10, "N\xba Etudiant : $num", 0, 1);
 $pdf->Cell(0, 10, "Nom : $nom", 0, 1);
 $pdf->Cell(0, 10, "Prenom : $prenom", 0, 1);
 $pdf->Cell(0, 10, "Parcours : $spe", 0, 1);
@@ -269,7 +275,7 @@ foreach (array_slice($listeUE, 0, $nboblig) as $ue) {
 // Ajouter les UE supplémentaires
 $pdf->Ln(5);
 $pdf->SetFont('Arial', 'B', 12);
-$pdf->Cell(0, 10, "Voeux d'UE supplémentaires :", 0, 1);
+$pdf->Cell(0, 10, "Voeux d'UE suppl\xe9mentaires", 0, 1);
 $pdf->SetFont('Arial', '', 12);
 foreach (array_slice($listeUE, $nboblig) as $ue) {
     $pdf->Cell(0, 10, "- " . $ue, 0, 1);
@@ -305,6 +311,7 @@ try {
     $mail->Password = $config['smtp_password'];
     $mail->SMTPSecure = $config['smtp_secure'];
     $mail->Port = $config['smtp_port'];
+    
 
     // Codage des caractères
     $mail->CharSet = 'UTF-8';

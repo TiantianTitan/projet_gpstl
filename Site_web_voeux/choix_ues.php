@@ -30,12 +30,19 @@ if ($_SESSION['redouble'] == 'true') { //recuperation des ues validees par un re
 }
 $_SESSION['nb_suivi'] = $nb_suivi; //ajout du nombre d' ues suivies a l'environnement de session
 
-/* * GESTION EDT* */
-require_once('config.php'); //On aura besoin de config.php afin de se connecter a la base
-$reponse = mysql_query("SELECT * FROM UEGroupes");
-$groupes = []; //Tableau qui contiendra les paires (groupe_ue => effectif) Exemple ( groupe : algav1, effectif : 30 )
-while ($donnees = mysql_fetch_array($reponse))
-    $groupes[$donnees['groupe']] = $donnees['effectif'];
+// /* * GESTION EDT* */
+// require_once('config.php'); //On aura besoin de config.php afin de se connecter a la base
+// $reponse = mysql_query("SELECT * FROM UEGroupes");
+// $groupes = []; //Tableau qui contiendra les paires (groupe_ue => effectif) Exemple ( groupe : algav1, effectif : 30 )
+// while ($donnees = mysql_fetch_array($reponse))
+//     $groupes[$donnees['groupe']] = $donnees['effectif'];
+
+require_once('config.php');
+// $reponse = $pdo->query("SELECT * FROM UEGroupes");
+// $groupes = [];
+// while ($donnees = $reponse->fetch(PDO::FETCH_ASSOC)) {
+// 	$groupes[$donnees['groupe']] = $donnees['effectif']; // Ajout du groupe et de l'effectif
+// }
 
 ?>
 
@@ -64,7 +71,17 @@ while ($donnees = mysql_fetch_array($reponse))
             <!-- Decommenter sur le seveur si connexion disponible
             <script src="http://code.jquery.com/jquery-latest.js"></script>
             Contenu duplique en local dans js/jquery-latest.js  -->
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+			
+			  <!-- --------------------------------------------- -->
+
+			  <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+        <script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js">
+
+		 <!-- ------------------------------------------------------ -->
+
+
             <script type="text/javascript" src="js/utils.js"></script>
             <script type="text/javascript" src="js/choix_ues.js"></script>
             <script type="text/javascript">
@@ -126,8 +143,16 @@ while ($donnees = mysql_fetch_array($reponse))
             <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h2><b>Choix des UE</b></h2>
-        <h2><i><span style="color:#0000FF">Lectures' wishes</span></i></h2>
+        <div id="language-selector" style="display: flex; align-items: center; gap: 5px;">     
+			<label for="language" style="margin-right: 10px;">🌍 Language:</label>
+			<select id="language" onchange="changeLanguage()">
+				<option value="fr" selected>🇫🇷 Français</option>
+				<option value="en">🇬🇧 English</option>
+			</select>
+		</div>
+		</br>
+        <h2><b data-translate-key="titre">Choix des UE</b></h2>
+        <!-- <h2><i><span style="color:#0000FF">Lectures' wishes</span></i></h2> -->
 
         <span class="note" id="description_master"> </span>
 
@@ -154,10 +179,10 @@ while ($donnees = mysql_fetch_array($reponse))
 												if($spe != 'IMA' or $semestre==1)
 												{
 	                        switch($cpt)
-	                        {
-	                            case 1 : echo "<b>UE obligatoires : <i><span style='color:#0000FF'>Mandatory lectures</span></i></b>"; break;
-	                            case 2 : echo "<b>UE recommand&eacutes par le parcours : <i><span style='color:#0000FF'>Recommended lectures</span></i></b>"; break;
-	                            case 3 : echo "<b>autres UE propos&eacutees par le master : <i><span style='color:#0000FF'>Other possible lectures</span></i></b>"; break;
+	                        {	
+	                            case 1 : echo "<b data-translate-key='obl'>UE obligatoires : </b>"; break;
+	                            case 2 : echo "<b data-translate-key='recom'>UE recommand&eacutes par le parcours : </b>"; break;
+	                            case 3 : echo "<b data-translate-key='autre'>autres UE propos&eacutees par le master : </b>"; break;
 	                            default : echo "<b>Should not occur !</b>"; break;
 	                        }
 												}
@@ -165,9 +190,9 @@ while ($donnees = mysql_fetch_array($reponse))
 												{
 													switch($cpt)
 	                        {
-	                            case 1 : echo "<b>UE obligatoires : </b>"; break;
-	                            case 2 : echo "<b>Choisir 1 UE, &agrave; 3ECTS, obligatoire parmi : </b>"; break;
-	                            case 3 : echo "<b>Choisir 2 UE, &agrave; 6ECTS parmi :</b>"; break;
+	                            case 1 : echo "<b data-translate-key='obl'>UE obligatoires : </b>"; break;
+	                            case 2 : echo "<b data-translate-key='recom'>Choisir 1 UE, &agrave; 3ECTS, obligatoire parmi : </b>"; break;
+	                            case 3 : echo "<b data-translate-key='autre'>Choisir 2 UE, &agrave; 6ECTS parmi :</b>"; break;
 	                            default : echo "<b>Should not occur !</b>"; break;
 	                        }
 												}
@@ -262,7 +287,7 @@ while ($donnees = mysql_fetch_array($reponse))
 								else
 								{ // pour le S2
 									$nb_par_parcours = array(
-										"ANDROIDE" => 7, "BIM" => 10, "CCA" =>  7, "DAC" => 7, "IMA" => 7, "IQ" => 4, "RES" => 10, "SAR" => 9, "SESI" => 6, "STL" => 7 );
+										"AI2D" => 7, "BIM" => 10, "CCA" =>  7, "MIND" => 7, "IMA" => 7, "IQ" => 4, "RES" => 10, "SAR" => 9, "SESI" => 6, "STL" => 7 );
 
 								   $nb_ajout = $nbRecom + $nbLibre;
 								   if ($nb_ajout > $nb_par_parcours[$spe])

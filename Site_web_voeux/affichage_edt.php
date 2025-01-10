@@ -50,13 +50,20 @@ affichage_edt.php?UE1=LRC&GR1=1&UE2=MOGPL&GR2=2
         <link rel="stylesheet" href="css/confirmation.css" type="text/css" />
         <link rel="stylesheet" href="css/ue.css" type="text/css" />
         <link rel="stylesheet" href="css/maincss.css" type="text/css" />
-        <script src="js/jquery-latest.js"></script> 
+        <!-- <script src="js/jquery-latest.js"></script>  -->
+		 <!-- --------------------------------------------- -->
+
+		 <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
         <script type="text/javascript" src="js/utils.js"></script>
         <script type="text/javascript">
             SEMNUM =<?php echo $SEMESTRE; ?>;
 //            alert("SEMNUM : "+JSON.stringify(SEMNUM));
         </script>
-        <script type="text/javascript" src="js/calendrier.js"></script>  <!--// là où est stocké l'EDT-->
+        <script type="text/javascript" src="js/calendrier_ameliorer.js"></script>  <!--// là où est stocké l'EDT-->
         <script type="text/javascript" src="js/edt_print.js"></script> <!--//composant d'affichage des edt (reutilisable)-->
         <script type ="text/javascript">
             function show_edt() {

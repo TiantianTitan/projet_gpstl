@@ -26,7 +26,16 @@ print_r($liste_ues);
             <!-- Decommenter sur le seveur si connexion disponible
             <script src="http://code.jquery.com/jquery-latest.js"></script>
             Contenu duplique en local dans js/jquery-latest.js  -->
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+          <!-- --------------------------------------------- -->
+
+		 <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
+
             <script type="text/javascript" src="js/utils.js"></script>
             <script type="text/javascript" src="js/saisie_ues_valides.js"></script>
 
@@ -78,6 +87,7 @@ print_r($liste_ues);
                     sort($liste_ues); //ordre alphabetique sur la liste d'ues
                     foreach ($liste_ues as $value) {
                     	if ($value == 'Anglais'){
+                            // changer nom ues ? 
                     		$ch = 'Anglais AND_IMA_BIM_DAC_IQ';
                     	}
                     	else {

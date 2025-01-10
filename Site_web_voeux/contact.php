@@ -11,7 +11,15 @@ session_start();
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <meta name="description" content="Inscriptions des etudiants au master informatique de Sorbonne Universit&eacute;">
             <meta name="keywords" content="EDT,Sorbonne Universit&eacute;,MASTER,INFO,CHOIX,UE">
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+             <!-- --------------------------------------------- -->
+
+		      <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+         <script src="js/jquery-migrate-3.4.1.min.js"></script>
+
+		     <!-- ------------------------------------------------------ -->
 
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -36,9 +44,9 @@ session_start();
     <div style="display:inline-block;float:left;width:50%;">
 
     <fieldset>
-     <legend><b>Parcours ANDROIDE</b></legend>
+     <legend><b>Parcours AI2D</b></legend>
      <font size="4"><b>Secr&eacute;taire : </b>Magalie Dupray</font><br/>
-     <font size="4"><b>Courriel : </b>sciences-master-info-androide@sorbonne-universite.fr</font><br/>
+     <font size="4"><b>Courriel : </b>sciences-master-info-ai2d@sorbonne-universite.fr</font><br/>
     </fieldset>
     <br/><br/>
 
@@ -57,9 +65,9 @@ session_start();
     <br/><br/>
 
     <fieldset>
-     <legend><b>Parcours DAC</b></legend>
+     <legend><b>Parcours MIND</b></legend>
      <font size="4"><b>Secr&eacute;taire : </b>G&eacute;raldine Bompard</font><br/>
-     <font size="4"><b>Courriel : </b>sciences-master-info-dac@sorbonne-universite.fr</font><br/>
+     <font size="4"><b>Courriel : </b>sciences-master-info-mind@sorbonne-universite.fr</font><br/>
     </fieldset>
     <br/><br/>
 

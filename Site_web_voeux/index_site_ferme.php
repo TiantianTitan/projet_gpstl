@@ -19,7 +19,16 @@ require_once ('semestre.php');
             <!-- Decommenter sur le seveur si connexion disponible
             <script src="http://code.jquery.com/jquery-latest.js"></script>
             Contenu duplique en local dans js/jquery-latest.js  -->
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+            <!-- --------------------------------------------- -->
+
+		 <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
+
             <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript" src="js/utils.js"></script>
             

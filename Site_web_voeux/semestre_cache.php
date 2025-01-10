@@ -14,7 +14,7 @@ $month = date("m"); //1->jan ... 12->dec
 
 //$month=5;//pour tests
 
-$ALLSPE = array('ANDROIDE', 'BIM', 'CCA', 'DAC', 'IMA', 'RES', 'SAR', 'SESI', 'STL');  //useless
+$ALLSPE = array('AI2D', 'BIM', 'CCA', 'MIND', 'IMA', 'RES', 'SAR', 'SESI', 'STL');  //useless
 
 if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask genitrini les periodes
     $_SESSION['SEMESTRE'] = 1; //Definition du numero de semestre
@@ -22,7 +22,7 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask
     $_SESSION['ALLUES'] = array("maths4m062", "aagb", "mapsi", "algav", "mlbda", "archi", "mobj", "ares", "model", "bima", "mogpl", "complex", "noyau", "dlp", "pscr", "esa", "rtel", "il", "signal", "lrc", "vlsi", "prog_res", "ouv_anglais_stl");
     //Definition des contraintes sur  les ues du semestre pour chaque specialite
     $_SESSION['MASTER'] = array(
-        "ANDROIDE" => array(
+        "AI2D" => array(
             "oblig" => array("lrc", "mogpl"),
             "recom" => array("mapsi", "complex"), //ajout de il recommande (sur le site du master)
             "libre" => array("mlbda", "bima", "aagb", "il", "model", "pscr", "signal", "algav", "dlp")
@@ -37,7 +37,7 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask
             "recom" => array("complex", "ares", "archi", "noyau", "mapsi", "pscr"),
             "libre" => array("mlbda", "dlp")
         ),
-        "DAC" => array(
+        "MIND" => array(
             "oblig" => array("mlbda", "lrc"),
             "recom" => array("il", "mapsi"),
             "libre" => array("bima", "complex", "model", "mogpl")
@@ -77,7 +77,7 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask
 
 
     $_SESSION['MASTER'] = array(
-        'ANDROIDE' => array(
+        'AI2D' => array(
             'oblig' => array(),
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']
@@ -92,7 +92,7 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']
             ),
-        'DAC' => array(
+        'MIND' => array(
             'oblig' => array(),
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']

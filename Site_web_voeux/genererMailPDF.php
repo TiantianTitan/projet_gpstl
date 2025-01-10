@@ -8,6 +8,7 @@ $mailetu = $_SESSION['mail'];
 $spe = $_SESSION['spe'];
 $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
+$voeux = 1;
 
 
 $listeUE = [];
@@ -20,10 +21,15 @@ for ($i=1; $i<6; $i++)
         array_push($listeUE, $_GET['UEoblig'.$i]);
      }
 }
-for ($i=1; $i<15; $i++)
-{
-	if(isset($_GET['UEsup'.$i]))
-        array_push($listeUE, $_GET['UEsup'.$i]);
+// Récupération des UE supplémentaires avec vérification
+for ($i = 1; $i < 15; $i++) {
+    if (isset($_GET['UEsup' . $i])) {
+        if ($_GET['UEsup' . $i] === '--- Choisissez une UE---') {
+            $messageErreur = "Erreur : Une ou plusieurs UE supplémentaires n'ont pas été sélectionnées.";
+            break;
+        }
+        array_push($listeUE, $_GET['UEsup' . $i]);
+    }
 }
 
 
@@ -32,23 +38,8 @@ for ($i=1; $i<15; $i++)
 
 
 require_once('config.php'); // Acces Base de donnees
-//On verifie que les voeux n'aient pas deja ete faits
-//$sql = "SELECT * FROM ListeEtudiants WHERE numero='" . $_SESSION['num'] . "' AND voeux=1";
-//$requete = mysql_query($sql) or die(mysql_error());
-//if (mysql_num_rows($requete) > 0) {
-    //echo "<div id ='enddiv'>"
-        //. "<p id='endp'>"
-                //. "<span id='endspan'>Vous avez d&eacute;j&agrave; enregistr&eacute; vox voeux.<br>"
-                //. "</span> <br>";
-        //echo "<a href='https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique'>Retour sur le site du master informatique de Sorbonne Universit&eacute;</a> "
-        //. "</p>"
-    //. "</div>";
-    //exit();
-//}
 
-//On ecrit la requete sql dans ListEtudiants : on enregistre l'etudiant
-$sql = "INSERT INTO ListeEtudiants(numero, nom, prenom, mail, spe, voeux) VALUES('" . $num . "', '" . $nom . "', '" . $prenom . "', '" . $mailetu . "', '" . $spe . "', 0)";
-mysql_query($sql) or die(mysql_error());
+// ------------------------------------------------------------ Nouveau Code ------------------------------------
 
 $ue = "";
 for ($i = 1; $i <= count($listeUE); $i++) {
@@ -62,27 +53,92 @@ for ($i = count($listeUE)+1; $i <=15 ; $i++) {
         $ue .= ", ";
 }
 
-//echo $ue; //Debug
-//Ici on mets a jour les champs UEi, UEigpe et voeux de la base dans ListEtudiants
-$sql = "UPDATE ListeEtudiants SET voeux=1, " . $ue . " WHERE numero='".$num."'";
-mysql_query($sql) or die(mysql_error());
 
-//On ecrit la requete sql dans la SPE, ce qui donne le rang d'enregistrement des voeux
-$sql = "INSERT INTO $spe(numetu) VALUES('".$num."')";
-mysql_query($sql) or die(mysql_error());
+// Commencer une transaction (pour assurer la cohérence des opérations)
+try {
+    $pdo->beginTransaction();
 
-//On recupere rang
-$sql = "SELECT * FROM $spe WHERE numetu='".$num."'";
-$requete = mysql_query($sql) or die(mysql_error());
-$rang = mysql_fetch_array($requete)['rang'];
+    // Insérer l'étudiant dans la table de la spécialisation (par exemple: $spe)
+    $sql = "INSERT INTO $spe (numetu) VALUES (:num)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
 
-$_SESSION['rang'] = $rang;
+    // Récupérer le rang de l'étudiant dans la table de la spécialisation
+    $sql = "SELECT rang FROM $spe WHERE numetu = :num";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-//On ecrit la requete sql dans Master, ce qui donne le rang d'enregistrement des voeux (au sein du master)
-$sql = "INSERT INTO Master(numetu) VALUES('".$num."')";
-mysql_query($sql) or die(mysql_error());
+    if ($result) {
+        $rang = $result['rang'];
+        $_SESSION['rang'] = $rang; // Enregistrer le rang dans la session
+    } else {
+        throw new Exception("Le rang n'a pas pu être récupéré.");
+    }
+
+    // Insérer l'étudiant dans la table `ListeEtudiants` si ce n'est pas encore fait
+    $sql = "INSERT INTO ListeEtudiants (numero, nom, prenom, mail, spe, voeux) 
+            VALUES (:numero, :nom, :prenom, :mail, :spe, :voeux)
+            ON DUPLICATE KEY UPDATE nom = :nom, prenom = :prenom, mail = :mail, spe = :spe, voeux = :voeux";
+    $stmt = $pdo->prepare($sql);
+
+    $stmt->bindParam(':numero', $num, PDO::PARAM_INT);
+    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+    $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+    $stmt->bindParam(':mail', $mailetu, PDO::PARAM_STR);
+    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+    $stmt->bindParam(':voeux', $voeux, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo "L'étudiant a été enregistré avec succès.";
+    } else {
+        throw new Exception("Erreur lors de l'enregistrement de l'étudiant.");
+    }
+
+    // Construire et exécuter la requête UPDATE pour les UE
+    $sql = "UPDATE ListeEtudiants SET ";
+    for ($i = 1; $i <= 15; $i++) {
+        $sql .= "ue$i = :ue$i";
+        if ($i < 15) {
+            $sql .= ", ";
+        }
+    }
+    $sql .= " WHERE numero = :num";
+
+    $stmt = $pdo->prepare($sql);
+
+    // Lier les valeurs des UE
+    for ($i = 1; $i <= count($listeUE); $i++) {
+        $stmt->bindValue(":ue$i", strtolower($listeUE[$i - 1]), PDO::PARAM_STR);
+    }
+    for ($i = count($listeUE) + 1; $i <= 15; $i++) {
+        $stmt->bindValue(":ue$i", "", PDO::PARAM_STR);
+    }
+
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo "Les UE ont été mises à jour avec succès.";
+    } else {
+        throw new Exception("Erreur lors de la mise à jour des UE.");
+    }
+
+    // Commit des transactions si toutes les étapes sont réussies
+    $pdo->commit();
+} catch (PDOException $e) {
+    // Si une erreur survient, on annule la transaction et affiche l'erreur
+    $pdo->rollBack();
+    echo "Erreur : " . $e->getMessage();
+} catch (Exception $e) {
+    // Gestion des erreurs personnalisées
+    $pdo->rollBack();
+    echo "Erreur : " . $e->getMessage();
+}
 
 
+// A commenter et esssayer de tester pour voir si on a des bugs 
 //S1
 	$CodeUE = array(
 	  "maths4m062" => "maths4m062",
@@ -150,89 +206,210 @@ mysql_query($sql) or die(mysql_error());
 	  'sftr' => 'MU4IN407'
 	);
 
-
+$pdo = null;
 //print_r($effectif); //Debug
 //Fermeture connexion base de donnees
-mysql_close();
 
 
+/***** Envoi de mail *****/
+// ASSEZ LENT...
+// Inclusion du fichier PHP contenant les adresses mail des secrétariats
+$smtp_configs = require 'MSN.php';
+
+// Inclusion de la bibliothèque PHPMailer et FPDF
+require 'vendor/autoload.php';
+require 'fpdf186/fpdf.php';
+
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->Image('SU_logo.jpg', 10, 6, 30);
+$pdf->Ln(20);
+$pdf->Cell(0, 10, "MASTER $spe - Ann\xe9e " . date('Y') . '/' . (date('Y') + 1), 0, 1, 'C');
+$pdf->SetFont('Arial', '', 12);
+$pdf->Ln(10);
+$pdf->Cell(0, 10, "Voeux M1-S". $_SESSION['SEMESTRE']." " , 0, 1, 'C');
+$pdf->Ln(10);
+$pdf->SetFont('Arial', '', 12);
+$pdf->Cell(0, 10, "N\xba Etudiant : $num", 0, 1);
+$pdf->Cell(0, 10, "Nom : $nom", 0, 1);
+$pdf->Cell(0, 10, "Prenom : $prenom", 0, 1);
+$pdf->Cell(0, 10, "Parcours : $spe", 0, 1);
 
 
-   /***** Envoi de mail *****/
-
-   // Inclusion du fichier PHP contenant les adresses mail des secrétariats
-   require_once('MSN.php');
-
-   // Inclusion de la bibliothèque PHPMailer nécessaire pour la suite
-   require('phpmailer/class.phpmailer.php');
-
-   // Déclaration des adresses mail de l'étudiant, de l'admin et du secrétariat de lu parcours
-   $mailadmin = 'XXX@mail.com';
-   $mailetu = $_SESSION['mail'];
-   $spe = $_SESSION['spe'];
-   $mailspe = $msn[$spe];
-
-
-   // Création d'une nouvelle instance de mail
-   $mail = new PHPMailer();
-
-   // Codage des caractères
-   $mail->CharSet = "UTF-8";
-
-   // Adresse d'envoi et nom de l'émetteur
-   $mail->setFrom($mailspe, "Sorbonne Université - Master Informatique");
-
-   // Définition du sujet
-   $mail->Subject = "Sorbonne Université - Master Informatique - Parcours ".$_SESSION['spe']." - Voeux M1-S".
-   $_SESSION['SEMESTRE']." de ".$_SESSION['num'];
-
-   // Contenu du mail
-   $txt = "Bonjour ".$_SESSION['prenom']." ".$_SESSION['nom'].",
-
-Vous avez déposé vos voeux sous le numéro ".$_SESSION['num']."
-Veuillez trouver ci-dessous la liste ordonnée de vos voeux d'UE.
-
-UE obligatoires : " . "
-	";
-for ($i=0; $i<$nboblig; $i++)
-{
-	$txt = $txt . "- " . $listeUE[$i] . "
-	";
+// Ajouter les UE obligatoires
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(0, 10, "UE obligatoires :", 0, 1);
+$pdf->SetFont('Arial', '', 12);
+foreach (array_slice($listeUE, 0, $nboblig) as $ue) {
+    $pdf->Cell(0, 10, "- " . $ue, 0, 1);
 }
-$txt = $txt . "
 
-Voeux d'UE supplémentaires : ". "
-	";
-for ($i=$nboblig; $i<count($listeUE); $i++)
-{
-	$txt = $txt . "- " . $listeUE[$i] . "
-	";
+// Ajouter les UE supplémentaires
+$pdf->Ln(5);
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(0, 10, "Voeux d'UE suppl\xe9mentaires", 0, 1);
+$pdf->SetFont('Arial', '', 12);
+foreach (array_slice($listeUE, $nboblig) as $ue) {
+    $pdf->Cell(0, 10, "- " . $ue, 0, 1);
 }
-$txt = $txt . "
-
-L'emploi du temps vous sera communiqué ultérieurement par mail.
-
-Cordialement,
-Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
 
 
-   $mail->Body = $txt;
+// Chemin temporaire pour le PDF
+$pdf_file = sys_get_temp_dir() . "/voeux_$num.pdf";
+$pdf->Output('F', $pdf_file);
 
-   // Ajout de l'adresse mail des destinataires
-   $mail->AddAddress($mailetu);
-   $mail->AddAddress($mailadmin);
-   $mail->AddAddress($mailspe);    ///////ici les gestionnaires
+// Vérification que la spécialité existe dans les configurations
+if (!isset($smtp_configs[$spe])) {
+    die("Aucune configuration SMTP trouvée pour la spécialité : $spe");
+}
+$config = $smtp_configs[$spe];
 
-   // Ajout de la pièce jointe
-   //$mail->AddAttachment($edtfilename);
-   //$mail->addStringAttachment($pdf_attach, $edtfilename);   pas de piece jointe
+$mailspe = $config['smtp_username'];
+if (!filter_var($mailspe, FILTER_VALIDATE_EMAIL)) {
+    die("L'adresse email du secrétariat est invalide.");
+}
 
-   // Envoi Mail
-   $mail->send();
+$mailadmin = 'yokyann@outlook.fr';
 
-   // Suppression du fichier PDF du dossier tmp (Pour économiser de l'espace mémoire sur le serveur)
-  // unlink($edtfilename);
-?>
+// Création du mail avec PHPMailer
+$mail = new PHPMailer\PHPMailer\PHPMailer(true);
+
+try {
+    // Configuration SMTP
+    $mail->isSMTP();
+    $mail->Host = $config['smtp_host'];
+    $mail->SMTPAuth = true;
+    $mail->Username = $config['smtp_username'];
+    $mail->Password = $config['smtp_password'];
+    $mail->SMTPSecure = $config['smtp_secure'];
+    $mail->Port = $config['smtp_port'];
+    
+
+    // Codage des caractères
+    $mail->CharSet = 'UTF-8';
+
+    // Adresse de l'expéditeur (secrétariat)
+    $mail->setFrom($mailspe, "Sorbonne Université - Master $spe");
+
+    // Destinataires
+    $mail->addAddress($mailetu); // Email de l'étudiant
+    $mail->addAddress($mailadmin); // Email de l'administrateur
+    $mail->addAddress($mailspe); // Email du secrétariat
+
+    // Sujet du mail
+    $mail->Subject = "Sorbonne Université - Master Informatique - Parcours $spe - Voeux M1-S" . $_SESSION['SEMESTRE'] . " de $num";
+
+    // Contenu du mail
+    $txt = "Bonjour $prenom $nom,<br><br>";
+    $txt .= "Vous avez déposé vos voeux sous le numéro $num.<br>";
+    $txt .= "Veuillez trouver ci-dessous la liste ordonnée de vos voeux d'UE.<br><br>";
+
+    $txt .= "<strong>UE obligatoires :</strong><br>";
+    for ($i = 0; $i < $nboblig; $i++) {
+        $txt .= "- " . htmlspecialchars($listeUE[$i]) . "<br>";
+    }
+
+    $txt .= "<br><strong>Voeux d'UE supplémentaires :</strong><br>";
+    for ($i = $nboblig; $i < count($listeUE); $i++) {
+        $txt .= "- " . htmlspecialchars($listeUE[$i]) . "<br>";
+    }
+
+    $txt .= "<br>L'emploi du temps vous sera communiqué ultérieurement par mail.<br><br>";
+    $txt .= "Cordialement,<br>Master Informatique de Sorbonne Université - Parcours $spe";
+
+    $mail->Body = $txt;
+    $mail->isHTML(true);
+
+    $mail->addAttachment($pdf_file);
+
+    // Envoi du mail
+    $mail->send();
+    echo "E-mail envoyé avec succès.";
+
+    // Suppression du fichier temporaire
+    unlink($pdf_file);
+} catch (Exception $e) {
+    echo "Erreur lors de l'envoi de l'e-mail : " . $mail->ErrorInfo;
+}
+
+
+
+//    /***** Envoi de mail *****/
+
+//    // Inclusion du fichier PHP contenant les adresses mail des secrétariats
+//    require_once('MSN.php');
+
+//    // Inclusion de la bibliothèque PHPMailer nécessaire pour la suite
+//    require('phpmailer/class.phpmailer.php');
+
+//    // Déclaration des adresses mail de l'étudiant, de l'admin et du secrétariat de lu parcours
+//    $mailadmin = 'yokyann@mail.com';
+//    $mailetu = $_SESSION['mail'];
+//    $spe = $_SESSION['spe'];
+//    $mailspe = $msn[$spe];
+
+
+//    // Création d'une nouvelle instance de mail
+//    $mail = new PHPMailer();
+
+//    // Codage des caractères
+//    $mail->CharSet = "UTF-8";
+
+//    // Adresse d'envoi et nom de l'émetteur
+//    $mail->setFrom($mailspe, "Sorbonne Université - Master Informatique");
+
+//    // Définition du sujet
+//    $mail->Subject = "Sorbonne Université - Master Informatique - Parcours ".$_SESSION['spe']." - Voeux M1-S".
+//    $_SESSION['SEMESTRE']." de ".$_SESSION['num'];
+
+//    // Contenu du mail
+//    $txt = "Bonjour ".$_SESSION['prenom']." ".$_SESSION['nom'].",
+
+// Vous avez déposé vos voeux sous le numéro ".$_SESSION['num']."
+// Veuillez trouver ci-dessous la liste ordonnée de vos voeux d'UE.
+
+// UE obligatoires : " . "
+// 	";
+// for ($i=0; $i<$nboblig; $i++)
+// {
+// 	$txt = $txt . "- " . $listeUE[$i] . "
+// 	";
+// }
+// $txt = $txt . "
+
+// Voeux d'UE supplémentaires : ". "
+// 	";
+// for ($i=$nboblig; $i<count($listeUE); $i++)
+// {
+// 	$txt = $txt . "- " . $listeUE[$i] . "
+// 	";
+// }
+// $txt = $txt . "
+
+// L'emploi du temps vous sera communiqué ultérieurement par mail.
+
+// Cordialement,
+// Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
+
+
+//    $mail->Body = $txt;
+
+//    // Ajout de l'adresse mail des destinataires
+//    $mail->AddAddress($mailetu);
+//    $mail->AddAddress($mailadmin);
+//    $mail->AddAddress($mailspe);    ///////ici les gestionnaires
+
+//    // Ajout de la pièce jointe
+//    //$mail->AddAttachment($edtfilename);
+//    //$mail->addStringAttachment($pdf_attach, $edtfilename);   pas de piece jointe
+
+//    // Envoi Mail
+//    $mail->send();
+
+//    // Suppression du fichier PDF du dossier tmp (Pour économiser de l'espace mémoire sur le serveur)
+//   // unlink($edtfilename);
+// ?>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -253,7 +430,15 @@ Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
             <!-- Decommenter sur le seveur si connexion disponible
             <script src="http://code.jquery.com/jquery-latest.js"></script>
             Contenu duplique en local dans js/jquery-latest.js  -->
-            <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+            <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+       <!-- --------------------------------------------- -->
+
+		 <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
 
 
 
@@ -277,7 +462,7 @@ Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
 
 	Merci d'avoir effectu&eacute; vos voeux. Vous allez recevoir la liste de vos souhaits d'UE dans un mail.
 	<br>
-	<i><span style='color:#0000FF'>Thank you for having expressed your wishes.</span></i>
+	<i><i><span style = color: #0000FF >Thank you for having expressed your wishes.</span></i></i>
 
       </div>
     </div>

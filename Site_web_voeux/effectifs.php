@@ -6,10 +6,16 @@ if (is_ajax()) {
     //$data = $_GET["gpes"]; //if data were sent
     //echo json_encode("$data"); //just for debug
 
-    $requete = mysql_query("SELECT * FROM UEGroupes") or die(mysql_error());
-    $groupes = []; //Tableau qui contiendra les paires (groupe_ue => effectif) Exemple ( groupe : algav1, effectif : 30 )
-    while ($donnees = mysql_fetch_array($requete))
-        $groupes[$donnees['groupe']] = $donnees['effectif'];
+    // $requete = mysql_query("SELECT * FROM UEGroupes") or die(mysql_error());
+    // $groupes = []; //Tableau qui contiendra les paires (groupe_ue => effectif) Exemple ( groupe : algav1, effectif : 30 )
+    // while ($donnees = mysql_fetch_array($requete))
+    //     $groupes[$donnees['groupe']] = $donnees['effectif'];
+
+    $reponse = $pdo->query("SELECT * FROM UEGroupes");
+    $groupes = [];
+    while ($donnees = $reponse->fetch(PDO::FETCH_ASSOC)) {
+        $groupes[$donnees['groupe']] = $donnees['effectif']; // Ajout du groupe et de l'effectif
+    }
     
     echo json_encode($groupes); //reponse a envoyer au client au format json
 } else

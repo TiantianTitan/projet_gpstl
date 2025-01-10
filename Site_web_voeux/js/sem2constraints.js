@@ -59,7 +59,7 @@ function checkNbSpeUE(choix){
 
 	if(SEMNUM==2){
 
-	if (SPE == 'ANDROIDE'){
+	if (SPE == 'AI2D'){
 		var nb=0;
 		var ue_rec = ['fosyma','dj','rp','ihm'];
 		for(i=0;i<ue_rec.length;i++){

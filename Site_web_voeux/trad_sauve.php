@@ -7,22 +7,32 @@ $num = $_GET['num'];
 
 require_once('config.php'); // Acces Base de donnees
 //On verifie que les voeux n'aient pas deja ete faits
-$sql = "SELECT * FROM NumTraduction WHERE numini=" . $old;
-$requete = mysql_query($sql) or die(mysql_error());
-if (mysql_num_rows($requete) > 0) {
-    echo "<div id ='enddiv'>"
-        . "<p id='endp'>"
-                . "<span id='endspan'>Vous avez d&eacute;j&agrave; enregistr&eacute; votre num&eacute;ro.</span> <br></p></div>";
+
+try {
+$sql = "SELECT * FROM NumTraduction WHERE numini = :numini";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':numini', $old, PDO::PARAM_INT);
+$stmt->execute();
+
+if ($stmt->rowCount() > 0) {
+    echo "<div id='enddiv'>"
+       . "<p id='endp'>"
+       . "<span id='endspan'>Vous avez déjà enregistré votre numéro.</span> <br></p></div>";
     exit();
 }
 
-//On ecrit la requete sql dans NumTraduction
-$sql = "INSERT INTO NumTraduction(numini, numvrai) VALUES(" . $old . ", '" . $num . "')";
-mysql_query($sql) or die(mysql_error());
+// Insérer dans la table NumTraduction
+$sql = "INSERT INTO NumTraduction (numini, numvrai) VALUES (:numini, :numvrai)";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':numini', $old, PDO::PARAM_INT);
+$stmt->bindParam(':numvrai', $num, PDO::PARAM_STR);
+$stmt->execute();
 
-//Fermeture connexion base de donnees
-mysql_close();
+echo "Numéro enregistré avec succès.";
 
+} catch (PDOException $e) {
+echo "Erreur : " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
@@ -39,7 +49,15 @@ mysql_close();
         <!-- Decommenter sur le seveur si connexion disponible
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         Contenu duplique en local dans js/jquery-latest.js  -->
-        <script src="js/jquery-latest.js"></script> <!-- copie locale de jquery(realisee en 2014) -->
+        <!-- <script src="js/jquery-latest.js"></script> copie locale de jquery(realisee en 2014) -->
+
+        <!-- --------------------------------------------- -->
+
+		 <script src="js/jquery-3.7.1.min.js"></script> <!-- copie locale de jquery(realisee en 2024) -->
+                <!-- Inclure jQuery Migrate pour la compatibilité -->
+		<script src="https://code.jquery.com/jquery-migrate-3.4.1.min.js"></script>
+
+		 <!-- ------------------------------------------------------ -->
        
         
         

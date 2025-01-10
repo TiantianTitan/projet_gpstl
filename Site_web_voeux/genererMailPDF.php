@@ -57,20 +57,6 @@ for ($i = count($listeUE)+1; $i <=15 ; $i++) {
 // Commencer une transaction (pour assurer la cohérence des opérations)
 try {
     $pdo->beginTransaction();
-
-    // Insérer l'étudiant dans la table de la spécialisation (par exemple: $spe)
-    $sql = "INSERT INTO $spe (numetu) VALUES (:num)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
-    $stmt->execute();
-
-    // Récupérer le rang de l'étudiant dans la table de la spécialisation
-    $sql = "SELECT rang FROM $spe WHERE numetu = :num";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
-    $stmt->execute();
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
     if ($result) {
         $rang = $result['rang'];
         $_SESSION['rang'] = $rang; // Enregistrer le rang dans la session
@@ -284,82 +270,6 @@ try {
     echo "Erreur lors de l'envoi de l'e-mail : " . $mail->ErrorInfo;
 }
 
-
-
-//    /***** Envoi de mail *****/
-
-//    // Inclusion du fichier PHP contenant les adresses mail des secrétariats
-//    require_once('MSN.php');
-
-//    // Inclusion de la bibliothèque PHPMailer nécessaire pour la suite
-//    require('phpmailer/class.phpmailer.php');
-
-//    // Déclaration des adresses mail de l'étudiant, de l'admin et du secrétariat de lu parcours
-//    $mailadmin = 'yokyann@mail.com';
-//    $mailetu = $_SESSION['mail'];
-//    $spe = $_SESSION['spe'];
-//    $mailspe = $msn[$spe];
-
-
-//    // Création d'une nouvelle instance de mail
-//    $mail = new PHPMailer();
-
-//    // Codage des caractères
-//    $mail->CharSet = "UTF-8";
-
-//    // Adresse d'envoi et nom de l'émetteur
-//    $mail->setFrom($mailspe, "Sorbonne Université - Master Informatique");
-
-//    // Définition du sujet
-//    $mail->Subject = "Sorbonne Université - Master Informatique - Parcours ".$_SESSION['spe']." - Voeux M1-S".
-//    $_SESSION['SEMESTRE']." de ".$_SESSION['num'];
-
-//    // Contenu du mail
-//    $txt = "Bonjour ".$_SESSION['prenom']." ".$_SESSION['nom'].",
-
-// Vous avez déposé vos voeux sous le numéro ".$_SESSION['num']."
-// Veuillez trouver ci-dessous la liste ordonnée de vos voeux d'UE.
-
-// UE obligatoires : " . "
-// 	";
-// for ($i=0; $i<$nboblig; $i++)
-// {
-// 	$txt = $txt . "- " . $listeUE[$i] . "
-// 	";
-// }
-// $txt = $txt . "
-
-// Voeux d'UE supplémentaires : ". "
-// 	";
-// for ($i=$nboblig; $i<count($listeUE); $i++)
-// {
-// 	$txt = $txt . "- " . $listeUE[$i] . "
-// 	";
-// }
-// $txt = $txt . "
-
-// L'emploi du temps vous sera communiqué ultérieurement par mail.
-
-// Cordialement,
-// Master Informatique de Sorbonne Université - Parcours ".$_SESSION['spe'];
-
-
-//    $mail->Body = $txt;
-
-//    // Ajout de l'adresse mail des destinataires
-//    $mail->AddAddress($mailetu);
-//    $mail->AddAddress($mailadmin);
-//    $mail->AddAddress($mailspe);    ///////ici les gestionnaires
-
-//    // Ajout de la pièce jointe
-//    //$mail->AddAttachment($edtfilename);
-//    //$mail->addStringAttachment($pdf_attach, $edtfilename);   pas de piece jointe
-
-//    // Envoi Mail
-//    $mail->send();
-
-//    // Suppression du fichier PDF du dossier tmp (Pour économiser de l'espace mémoire sur le serveur)
-//   // unlink($edtfilename);
 // ?>
 
 

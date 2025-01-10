@@ -12,19 +12,6 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
---
--- Structure de la table `AI2D`
---
-
-CREATE TABLE IF NOT EXISTS `AI2D` (
-  `numetu` VARCHAR(255) NOT NULL,
-  `rang` INT(11) NOT NULL AUTO_INCREMENT,
-  `rang_rouge` INT(11) NOT NULL,
-  PRIMARY KEY (`rang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
 -- Structure de la table `csv_files`
 
 CREATE TABLE IF NOT EXISTS `csv_files` (
@@ -36,81 +23,13 @@ CREATE TABLE IF NOT EXISTS `csv_files` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `BIM`
+-- Structure de la table `NumTraduction`
 --
 
-CREATE TABLE IF NOT EXISTS `BIM` (
-  `numetu` VARCHAR(255) NOT NULL,
-  `rang` INT(11) NOT NULL AUTO_INCREMENT,
-  `rang_rouge` INT(11) NOT NULL,
-  PRIMARY KEY (`rang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `MIND`
---
-
-CREATE TABLE IF NOT EXISTS `MIND` (
-  `numetu` VARCHAR(255) NOT NULL,
-  `rang` INT(11) NOT NULL AUTO_INCREMENT,
-  `rang_rouge` INT(11) NOT NULL,
-  PRIMARY KEY (`rang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `edt_ideal`
---
-
-CREATE TABLE IF NOT EXISTS `edt_ideal` (
-  `numetu` VARCHAR(255) NOT NULL,
-  `voeux` INT(11) NOT NULL,
-  `ue1` VARCHAR(10) NOT NULL,
-  `ue2` VARCHAR(10) NOT NULL,
-  `ue3` VARCHAR(10) NOT NULL,
-  `ue4` VARCHAR(10) NOT NULL,
-  `ue5` VARCHAR(10) NOT NULL,
-  `ue6` VARCHAR(10) NOT NULL,
-  `ue7` VARCHAR(10) NOT NULL,
-  `ue8` VARCHAR(10) NOT NULL,
-  `ue1gpe` INT(11) NOT NULL,
-  `ue2gpe` INT(11) NOT NULL,
-  `ue3gpe` INT(11) NOT NULL,
-  `ue4gpe` INT(11) NOT NULL,
-  `ue5gpe` INT(11) NOT NULL,
-  `ue6gpe` INT(11) NOT NULL,
-  `ue7gpe` INT(11) NOT NULL,
-  `ue8gpe` INT(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `IMA`
---
-
-CREATE TABLE IF NOT EXISTS `IMA` (
-  `numetu` VARCHAR(255) NOT NULL,
-  `rang` INT(11) NOT NULL AUTO_INCREMENT,
-  `rang_rouge` INT(11) NOT NULL,
-  PRIMARY KEY (`rang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `IQ`
---
-
-CREATE TABLE IF NOT EXISTS `IQ` (
-  `numetu` VARCHAR(255) NOT NULL,
-  `rang` INT(11) NOT NULL AUTO_INCREMENT,
-  `rang_rouge` INT(11) NOT NULL,
-  PRIMARY KEY (`rang`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `NumTraduction` (
+  `numini` varchar(20) NOT NULL,
+  `numvrai` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 

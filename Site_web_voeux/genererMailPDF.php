@@ -6,7 +6,7 @@ $choix = $_SESSION['choix'];
 $num = $_SESSION['num'];
 $mailetu = $_SESSION['mail'];
 $spe = $_SESSION['spe'];
-$nom = $_SESSION['nom'];
+    $nom = $_SESSION['nom'];
 $prenom = $_SESSION['prenom'];
 $voeux = 1;
 
@@ -78,23 +78,42 @@ try {
         throw new Exception("Le rang n'a pas pu être récupéré.");
     }
 
-    // Insérer l'étudiant dans la table `ListeEtudiants` si ce n'est pas encore fait
-    $sql = "INSERT INTO ListeEtudiants (numero, nom, prenom, mail, spe, voeux) 
-            VALUES (:numero, :nom, :prenom, :mail, :spe, :voeux)
-            ON DUPLICATE KEY UPDATE nom = :nom, prenom = :prenom, mail = :mail, spe = :spe, voeux = :voeux";
+    // Check si l'étudiant est déjà inscrit
+    $sql = "SELECT * FROM ListeEtudiants WHERE numero = :num";
     $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $stmt->bindParam(':numero', $num, PDO::PARAM_INT);
-    $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
-    $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-    $stmt->bindParam(':mail', $mailetu, PDO::PARAM_STR);
-    $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
-    $stmt->bindParam(':voeux', $voeux, PDO::PARAM_INT);
-
-    if ($stmt->execute()) {
-        echo "L'étudiant a été enregistré avec succès.";
+    // si l'étudiant est déjà inscrit, on met à jour ses voeux
+    if ($result) {
+        $sql = "UPDATE ListeEtudiants SET $ue WHERE numero = :num";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':num', $num, PDO::PARAM_INT);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            echo "Les voeux de l'étudiant ont été mis à jour avec succès.";
+        } else {
+            throw new Exception("Erreur lors de la mise à jour des voeux de l'étudiant.");
+        }
     } else {
-        throw new Exception("Erreur lors de l'enregistrement de l'étudiant.");
+        // sinon, on l'insère dans la table ListeEtudiants
+        $sql = "INSERT INTO ListeEtudiants (numero, nom, prenom, mail, spe, voeux) 
+                VALUES (:numero, :nom, :prenom, :mail, :spe, :voeux)";
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindParam(':numero', $num, PDO::PARAM_INT);
+        $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+        $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+        $stmt->bindParam(':mail', $mailetu, PDO::PARAM_STR);
+        $stmt->bindParam(':spe', $spe, PDO::PARAM_STR);
+        $stmt->bindParam(':voeux', $voeux, PDO::PARAM_INT);
+        $stmt->execute();
+        if ($stmt->rowCount() > 0) {
+            echo "L'étudiant a été enregistré avec succès.";
+        } else {
+            throw new Exception("Erreur lors de l'enregistrement de l'étudiant.");
+        }
     }
 
     // Construire et exécuter la requête UPDATE pour les UE
@@ -137,74 +156,6 @@ try {
     echo "Erreur : " . $e->getMessage();
 }
 
-
-// A commenter et esssayer de tester pour voir si on a des bugs 
-//S1
-	$CodeUE = array(
-	  "maths4m062" => "maths4m062",
-	  "aagb" => "MU4IN700",
-	  "algav" => "MU4IN500",
-	  "archi" => "MU4IN100",
-	  "ares" => "MU4IN001",
-	  "bima" => "MU4IN600",
-	  "comnet" => "MU4INX05",
-	  "complex" => "MU4IN900",
-	  "dlp" => "MU4IN501",
-	  "esa" => "MU4EES05",
-//	  "il" => "MU4IN502",
-	  "irout" => "MU4INX20",
-	  "lrc" => "MU4IN800",
-	  "mapsi" => "MU4IN601",
-	  "mlbda" => "MU4IN801",
-	  "mobj" => "MU4IN103",
-	  "model" => "MU4IN901",
-	  "mogpl" => "MU4IN200",
-	  "noyau" => "MU4IN401",
-	  "ouv_ang" => "MU4IN511",
-	  "progres" => "MU4IN014",
-	  "pscr" => "MU4IN400",
-	  "rtel" => "MU4IN002",
-	  "sigcom" => "MU4INX06",
-	  "signal" => "MU4IN104",
-	  "sc" => "MU4IN905",
-	  "vlsi" => "MU4IN101",
-	  'anum' => 'MU4IN910',
-	  'aps' => 'MU4IN503',
-	  'ar' => 'MU4IN403',
-	  'arob' => 'MU4IN207',
-	  'bium' => 'MU4IN804',
-	  'bmc' => 'MU4BM118',
-	  'ca' => 'MU4IN504',
-	  'cpa' => 'MU4IN505',
-  	  'cps' => 'MU4IN506',
-	  'cge' => 'MU4IN112',
-	  'dalas' => 'MU4IN814',
-	  'dj' => 'MU4IN204',
-	  'ecfa' => 'MU4ESS18',
-	  'flag' => 'MU4IN902',
-	  'fosyma' => 'MU4IN202',
-	  'fpga' => 'MU4IN108',
-	  'iamsi' => 'MU4IN806',
-	  'ihm' => 'MU4IN203',
-	  'ig3d' => 'MU4IN602',
-	  'ioc' => 'MU4IN109',
-	  'isec' => 'MU4IN904',
-	  'ml' => 'MU4IN811',
-	  'mll' => 'MU4IN812',
-	  'mmcn' => 'MU4IN702',
-	  'multi' => 'MU4IN106',
-	  'multi_en' => 'MU4IN106',
-	  'paf' => 'MU4IN510',
-	  'pc2r' => 'MU4IN507',
-	  'pnl' => 'MU4IN402',
-	  'rital' => 'MU4IN813',
-	  'rp' => 'MU4IN201',
-	  'sam' => 'MU4IN803',
-	  'sas' => 'MU4IN405',
-	  'sbas' => 'MU4IN701',
-	  'srcs' => 'MU4IN404',
-	  'sftr' => 'MU4IN407'
-	);
 
 $pdo = null;
 //print_r($effectif); //Debug

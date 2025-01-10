@@ -1,5 +1,5 @@
 <?php
-
+// lien a modifier pour ANDROIDE (AI2D), DAC(MIND), IQ(QI)
 $uerl = array(
     "qclg_qki4cs_en" => 'https://sciences.sorbonne-universite.fr/en/masters/master-computer-science/quantum-information-qi', //
     "qph4cs_en" => 'https://sciences.sorbonne-universite.fr/en/masters/master-computer-science/quantum-information-qi', //

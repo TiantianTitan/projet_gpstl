@@ -35,20 +35,15 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Mars->Octobre (S1) //ask ge
 		"recom" => array("ares", "archi", "noyau", "ppar_en", "qclg_qk4cs_en"),
 		"libre" => array("mlbda", "mogpl", "mapsi", "pscr")
 	),
-	"MIND" => array(
-		"oblig" => array("mlbda", "lrc", "mapsi"),
-		"recom" => array(),
-		"libre" => array("bima_en", "bima", "complex", "model", "model_en", "mogpl", "aagb", "signal") //"il",
-	),
 	"IMA" => array(
 		"oblig" => array("bima", "mapsi"),
 		"recom" => array("model", "model_en", "mogpl"),
 		"libre" => array("aagb", "algav", "mlbda", "archi", "mobj", "ares", "complex", "noyau", "dlp", "pscr", "rtel", "signal", "lrc", "vlsi", "ppar_en") //"il",
 	),
-	"IQ" => array(
-		"oblig" => array("qclg_qk4cs_en", "qph4cs_en"),
+    "MIND" => array(
+		"oblig" => array("mlbda", "lrc", "mapsi"),
 		"recom" => array(),
-		"libre" => array("model", "model_en", "algav", "complex", "mogpl", "sigcom_en", "ppar_en", "archi_en", "comnet_en", "bima_en")
+		"libre" => array("bima_en", "bima", "complex", "model", "model_en", "mogpl", "aagb", "signal") //"il",
 	),
 	"RES" => array(
 		"oblig" => array("ares", "rtel", "progres"),
@@ -69,6 +64,11 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Mars->Octobre (S1) //ask ge
 		"oblig" => array("algav", "dlp", "ouv_ang"),
 		"recom" => array("lrc", "noyau", "pscr"), //"il",
 		"libre" => array("mlbda", "archi_en", "ares", "model","model_en", "mogpl", "complex", "mapsi")
+    ),
+    "QI" => array(
+		"oblig" => array("qclg_qk4cs_en", "qph4cs_en"),
+		"recom" => array(),
+		"libre" => array("model", "model_en", "algav", "complex", "mogpl", "sigcom_en", "ppar_en", "archi_en", "comnet_en", "bima_en")
 	)
     );
 }
@@ -95,20 +95,15 @@ else if ($month >=11 && $month <= 12 || $month >=1 && $month <= 2 ) {
             'recom' => array('flag', 'isec'),
             'libre' => array('ml', 'ar', 'fpga', 'multi_en') // 'ar' remplace 'pnl'
             ),
-        'MIND' => array(                     // OK
-            'oblig' => array('Conferences', 'Projet(3)', 'Anglais'),
-            'recom' => array('dalas', 'sam', 'iamsi', 'ml', 'rital'),
-            'libre' => array('dj','arob','rp')
-            ),
         'IMA' => array(															// OK
             'oblig' => array('Conferences', 'Projet(6)', 'Anglais', 'ig3d'),
             'recom' => array('cge', 'mll', 'anum'),
             'libre' => array('dj', 'flag', 'iamsi', 'ml', 'rp', 'fosyma', 'ihm', 'rital') // attention ordre important
             ),
-        'IQ' => array(															//  OK
-            'oblig' => array('Anglais/FLE', 'qiintro', 'pqig'), //'Anglais'
-            'recom' => array('Projet(6)', 'Projet(9)_anum'),
-            'libre' => array('flag', 'ig3d', 'sdm')
+        'MIND' => array(                     // OK
+            'oblig' => array('Conferences', 'Projet(3)', 'Anglais'),
+            'recom' => array('dalas', 'sam', 'iamsi', 'ml', 'rital'),
+            'libre' => array('dj','arob','rp')
             ),
         'RES' => array(															      // non fait
             'oblig' => array('Conferences', 'Projet', 'Anglais '),
@@ -129,7 +124,12 @@ else if ($month >=11 && $month <= 12 || $month >=1 && $month <= 2 ) {
             'oblig' => array('Conferences', 'Projet(6)'),
             'recom' => array('aps', 'ca', 'cpa', 'cps', 'paf', 'pc2r'),
             'libre' => array()
-            )
+            ),
+        'QI' => array(															//  OK
+            'oblig' => array('Anglais/FLE', 'qiintro', 'pqig'), //'Anglais'
+            'recom' => array('Projet(6)', 'Projet(9)_anum'),
+            'libre' => array('flag', 'ig3d', 'sdm')
+            ),
     );
 
 

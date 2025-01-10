@@ -92,12 +92,12 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']
             ),
-        'MIND' => array(
+        'IMA' => array(
             'oblig' => array(),
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']
             ),
-        'IMA' => array(
+        'MIND' => array(
             'oblig' => array(),
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']
@@ -118,6 +118,11 @@ if ($month >=3 && $month <= 10) {// pour l'instant : Avril->Septembre (S1) //ask
             'libre' => $_SESSION['ALLUES']
             ),
         'STL' => array(
+            'oblig' => array(),
+            'recom' => array(),
+            'libre' => $_SESSION['ALLUES']
+            ),
+        'QI' => array(
             'oblig' => array(),
             'recom' => array(),
             'libre' => $_SESSION['ALLUES']

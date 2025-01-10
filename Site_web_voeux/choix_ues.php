@@ -287,7 +287,7 @@ require_once('config.php');
 								else
 								{ // pour le S2
 									$nb_par_parcours = array(
-										"AI2D" => 7, "BIM" => 10, "CCA" =>  7, "MIND" => 7, "IMA" => 7, "IQ" => 4, "RES" => 10, "SAR" => 9, "SESI" => 6, "STL" => 7 );
+										"AI2D" => 7, "BIM" => 10, "CCA" =>  7, "IMA" => 7, "MIND" => 7, "RES" => 10, "SAR" => 9, "SESI" => 6, "STL" => 7, "QI" => 4, );
 
 								   $nb_ajout = $nbRecom + $nbLibre;
 								   if ($nb_ajout > $nb_par_parcours[$spe])

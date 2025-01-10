@@ -161,12 +161,13 @@ require_once ('semestre_cache.php');
                         <option value='AI2D' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'AI2D'){echo "selected='selected'";} ?> >AI2D</option>
                         <option value='BIM' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'BIM') {echo "selected='selected'";} ?> >BIM</option>
                         <option value='CCA'<?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'CCA'){echo "selected='selected'";} ?> >CCA</option>
-                        <option value='MIND' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'MIND') {echo "selected='selected'";} ?> >MIND</option>
                         <option value='IMA' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'IMA') {echo "selected='selected'";} ?> >IMA</option>
+                        <option value='MIND' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'MIND') {echo "selected='selected'";} ?> >MIND</option>
                         <option value='RES' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'RES') {echo "selected='selected'";} ?> >RES</option>
                         <option value='SAR' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'SAR') {echo "selected='selected'";} ?> >SAR</option>
                         <option value='SESI'<?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'SESI'){echo "selected='selected'";} ?> >SESI</option>
                         <option value='STL' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'STL') {echo "selected='selected'";} ?> >STL</option>
+                        <option value='QI' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'QI') {echo "selected='selected'";} ?> >QI</option>
                     </select>
 
                     <br/><br/><br/>

@@ -15,17 +15,18 @@
                <li><a target="_blank" href="contact.php">Contact</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Parcours<span class="caret"></span></a>
+                <!-- A modifier selon les nouveaux noms des masters (AI2D, MIND, QI) -->
                 <ul class="dropdown-menu">
-                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-AI2D">AI2D</a></li>
+                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-ai2d">AI2D</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-bim">BIM</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-cca">CCA</a></li>
-                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-MIND">MIND</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-ima">IMA</a></li>
-                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-IQ">IQ</a></li>
+                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-mind">MIND</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-res">RES</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-sar">SAR</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-sesi">SESI</a></li>
                   <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-stl">STL</a></li>
+                  <li><a target="_blank" href="https://sciences.sorbonne-universite.fr/formation-sciences/masters/master-informatique/parcours-qi">QI</a></li>
                 </ul>
               </li>
             </ul>

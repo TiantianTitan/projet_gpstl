@@ -191,19 +191,19 @@ require_once ('semestre.php');
                   <!-- <i><span style="color:#0000FF">Speciality</span></i> -->
                 </label>
                     <select class="selectop" id="spe" name="spe">
-                        <option value='AI2D' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == '---'){} ?> >---</option>
+                        <option value='---' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == '---'){} ?> >---</option>
                         <option value='AI2D' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'AI2D'){echo "selected='selected'";} ?> >AI2D</option>
                         <option value='BIM' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'BIM') {echo "selected='selected'";} ?> >BIM</option>
                         <option value='CCA'<?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'CCA'){echo "selected='selected'";} ?> >CCA</option>
-                        <option value='MIND' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'MIND') {echo "selected='selected'";} ?> >MIND</option>
                         <option value='IMA' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'IMA') {echo "selected='selected'";} ?> >IMA</option>
-                        <option value='IQ' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'IQ') {echo "selected='selected'";} ?> >IQ</option>
+                        <option value='MIND' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'MIND') {echo "selected='selected'";} ?> >MIND</option>
                         <option value='RES' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'RES') {echo "selected='selected'";} ?> >RES</option>
                         <option value='SAR' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'SAR') {echo "selected='selected'";} ?> >SAR</option>
                         <option value='SESI'<?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'SESI'){echo "selected='selected'";} ?> >SESI</option>
                         <option value='STL' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'STL') {echo "selected='selected'";} ?> >STL</option>
+                        <option value='QI' <?php if (isset( $_GET['spe'] ) and $_GET['spe'] == 'QI') {echo "selected='selected'";} ?> >QI</option>
                     </select>
-
+                    <div class="con_error" id="con_error_spe"></div> <!--Sert a l'affichage des messages d'erreur-->
                     <br/><br/><br/>
 
 

@@ -33,7 +33,9 @@ function connect(formulaire) {
     verif_text("nom", nom) &&
     verif_text("prenom", prenom) &&
     verif_mail(mail) &&
-    verif_magistere(redouble, magister);
+    verif_magistere(redouble, magister) &&
+    verif_spe(spe);
+
 
   if (conform) {
     //les entrees du formulaire sont toutes conformes
@@ -153,6 +155,23 @@ function verif_mail(mail) {
   //alert("mail="+mail);
   return false;
 }
+
+//verification spe
+function verif_spe(spe) {
+  console.log("Vérification de spe :", spe); // Ajout de debug
+  if (spe !== '---') {
+    console.log("spe valide :", spe); // Ajout de debug
+    printHTML("#con_error_spe", ""); // Supprime les anciens messages d'erreur
+    return true;
+  }
+  console.log("spe invalide :", spe); // Ajout de debug
+  func_erreur_connexion(
+    "#con_error_spe",
+    "<font color='red'>Veuillez choisir votre parcours.</font>"
+  );
+  return false;
+}
+
 
 //affichage d'un message d'erreur personnalise pour le fieldset en cause (modifications sur le dom)
 function func_erreur_connexion(dom, msg) {
